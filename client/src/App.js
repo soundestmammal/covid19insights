@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.css';
 
-function App() {
+function App(props) {
   return (
     <div className="App">
-      COVID-19 dashboard
+      {props.state}
     </div>
   );
 }

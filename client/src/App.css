@@ -1,4 +1,4 @@
-.App-header {
+.App {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -7,4 +7,35 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  margin-top: 56px;
+}
+
+.suggestions {
+  border: 1px solid #999;
+  border-top-width: 0;
+  list-style-type: none;
+  margin-top: 0;
+  max-height: 400px;
+  overflow-y: auto;
+  width: 50%;
+  margin: 0 auto;
+  padding-left: 0;
+  background-color: white;
+}
+
+.suggestions li {
+  padding: 0.5em 1em;
+  color: black;
+  text-decoration: none;
+}
+
+.suggestion-active,
+.suggestions li:hover {
+  background-color: rgba(237, 237, 237, 1);
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.suggestions li:not(:last-of-type) {
+  border-bottom: 1px solid #999;
 }
