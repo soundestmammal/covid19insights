@@ -147,12 +147,14 @@ class Hero extends Component {
             <div>
                 <div className="jumbotron" style={{ display: 'block', height: this.props.height}}>
                     {this.renderText()}
+                    <div style={{width: '50%', margin: '0 auto'}}>
                     <form>
-                        <InputGroup size="lg" className="w-50 mx-auto">
+                        <InputGroup size="lg" className="mx-auto">
                             <FormControl value={textInput} onChange={onChangeText} onKeyDown={onKeyDown} placeholder="Search for your state or county" aria-label="Large" aria-describedby="inputGroup-sizing-sm" />
                         </InputGroup>
                     </form>
                     {suggestionsListComponent}
+                    </div>
                 </div>
             </div>
         );
