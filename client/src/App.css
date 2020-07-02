@@ -11,22 +11,25 @@
 }
 
 .suggestions {
+  position: relative;
   border: 1px solid #999;
   border-top-width: 0;
   list-style-type: none;
   margin-top: 0;
   max-height: 400px;
   overflow-y: auto;
-  width: 50%;
+  width: 100%;
   margin: 0 auto;
   padding-left: 0;
   background-color: white;
+  z-index: 1099;
 }
 
 .suggestions li {
   padding: 0.5em 1em;
   color: black;
   text-decoration: none;
+  z-index: 1099;
 }
 
 .suggestion-active,
