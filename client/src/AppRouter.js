@@ -5,6 +5,7 @@ import Navbar from './Navbar';
 import Hero from './components/Hero';
 import Indicators from './components/Indicators';
 import USMap from './components/USMap';
+import Dashboard from './components/Dashboard';
 
 
 class AppRouter extends Component {
@@ -31,7 +32,8 @@ class AppRouter extends Component {
                         <USMap nav={this.navToState} /> 
                     </Route>
                     <Route path="/detail">
-                        <App state={this.state.currentState} />
+                        <Dashboard style={{marginTop: '56px', height: '380px', backgroundColor: 'rgb(0, 212, 116'}} riskLevel={"yellow"}/>
+                        {/* <App state={this.state.currentState} /> */}
                     </Route>
                 </Router>
             </div>
