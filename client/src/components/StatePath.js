@@ -15,10 +15,10 @@ const StatePath = (props) => {
                     props.nav(data);
                 }}
                 onMouseOver={(event) => {
-                    event.target.style.fill = 'orange';
+                    event.target.style.fill = fill;
                 }}
                 onMouseOut={(event) => {
-                    event.target.style.fill = 'blue';
+                    event.target.style.fill = fill;
                 }}
             />
        </Link>

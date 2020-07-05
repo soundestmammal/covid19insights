@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Searchbar from './Searchbar';
 import '../App.css';
+import Summary from './Summary';
+import riskData from '../json/risk-level-7-days.json';
 
 class Dashboard extends Component {
 
@@ -31,62 +33,62 @@ class Dashboard extends Component {
 
     riskLevelColorBackground = (findMeColor) => {
         
-        const riskLevelColor = this.getRiskLevelColor(findMeColor);
-        return <div style={{height: '380px', backgroundColor: `${riskLevelColor}`, zIndex: '1'}}></div>
+        // const riskLevelColor = this.getRiskLevelColor(findMeColor);
+        return <div style={{height: '380px', backgroundColor: `${findMeColor}`, zIndex: '1'}}></div>
     }
 
+    getRiskLevelColor = (riskLevel) => {
+        let key;
+        if(riskLevel >= 0.9) {
+            key = 'low';
+        } else if(riskLevel >= 0.2 && riskLevel < 0.9) {
+            key = 'medium';
+        } else if(riskLevel >= 0.07 && riskLevel < 0.20) {
+            key = 'high';
+        } else {
+            key = 'outbreak';
+        }
+        const riskLevelColorMap = {
+            low: "rgb(0, 212, 116)",
+            medium: "rgb(255, 201, 0)",
+            high: "rgb(255, 150, 0)",
+            outbreak: "rgb(255, 0, 52)",
+        }
+        return this.riskLevelColorBackground(riskLevelColorMap[key]);
+    }
+
+    getRiskLevel = (state) => {
+        const riskLevelData = riskData;
+        const thisRisk = riskLevelData[state];
+        return this.getRiskLevelColor(thisRisk);
+    }
+
+    getContactTraceRate = (state) => {
+        const riskLevelData = riskData;
+        let num = riskLevelData[state];
+        num = num * 100;
+        num = Math.round(num);
+        return num;
+
+    }
+
+
     render(){
+        const summaryProps = {
+            state: this.props.state,
+            risk: "Outbreak",
+            reproductionRate: "1.38",
+            positiveTestRate: "15.9",
+            contactTraceRate: this.getContactTraceRate(this.props.state),
+            updated: "June 27, 2020"
+        }
         return(
             <div>
                 <div className="dashboard-risk-level-background">
                     <Searchbar />
                 </div>
-                {this.riskLevelColorBackground(this.props.riskLevel)}
-                <div className="summary-container">
-                        <div className="overview-container">
-                            <div className="state-status">
-                                <div className="state-status-container">
-                                    <span className="state-name">{this.props.state || "New York"}</span>
-                                    <p>New York is on track to contain COVID. Cases are steadily decreasing and New York’s COVID preparedness meets or exceeds international standards.</p>
-                                </div>
-                            </div>
-                            <div className="risk-level">
-                                <span className="top">{this.props.risk || "Low"}</span>
-                                <div className="risk-level-color"></div>
-                                <span className="">COVID Risk Level</span>
-                            </div>
-                        </div>
-                        <div className="indicator-container">
-                            <div className="indicator-card">
-                                <div className="indicator-card-content">
-                                    <span className="title">Reproduction rate</span>
-                                    <span className="subtitle">The number of daily cases are decreasing</span>
-                                    <span className="data-value">{this.props.reproductionRate || "0.95"}</span>
-                                    <span className="risk">Low</span>
-                                </div>
-                            </div>
-                            <div className="indicator-card">
-                                <div className="indicator-card-content">
-                                    <span className="title">Positive Test Rate</span>
-                                    <span className="subtitle">The number of daily cases is decreasing</span>
-                                    <span className="data-value">1.07%</span>
-                                    <span className="risk">Low</span>
-                                </div>
-                            </div>
-                            <div className="indicator-card">
-                                <div className="indicator-card-content">
-                                    <span className="title">Contact Trace Rate</span>
-                                    <span className="subtitle">The number of daily cases is decreasing</span>
-                                    <span className="data-value">100%</span>
-                                    <span className="risk">Low</span>
-                                </div>
-                            </div>
-                            {/* <div className="indicator-card">Fourth data indicator</div> */}
-                        </div>
-                        <div className="last-updated">
-                            <span>Updated June 27, 2020</span>
-                        </div>
-                </div>
+                {this.getRiskLevel(this.props.state)}
+                <Summary {...summaryProps} />
             </div>
         );
     }
