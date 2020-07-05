@@ -32,7 +32,7 @@ class AppRouter extends Component {
                         <USMap nav={this.navToState} /> 
                     </Route>
                     <Route path="/detail">
-                        <Dashboard style={{marginTop: '56px', height: '380px', backgroundColor: 'rgb(0, 212, 116'}} riskLevel={"yellow"}/>
+                        <Dashboard style={{marginTop: '56px', height: '380px', backgroundColor: 'rgb(0, 212, 116'}} riskLevel={"yellow"} state={this.state.currentState}/>
                         {/* <App state={this.state.currentState} /> */}
                     </Route>
                 </Router>
