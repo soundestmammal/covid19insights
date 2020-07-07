@@ -3,6 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import "../App.css";
+import states from '../json/states.json';
 
 class Hero extends Component {
     constructor(props){
@@ -14,11 +15,20 @@ class Hero extends Component {
             textInput: "",
             toDetail: false,
         }
+        this.places = this.getPlaces(states);
+    }
+
+    getPlaces = (places) => {
+        const returnMe = [];
+        for(let i = 0; i < places.length; i++) {
+            returnMe.push(places[i]["name"]);
+        }
+        return returnMe;
     }
 
     onChangeText = (e) => {
         const userInput = e.target.value;
-        let places = ["New York", "Florida", "Massachusetts", "Texas", "California", "New Jersey", "Arizona", "Montana", "Rhode Island", "Kansas", "Louisiana"];
+        let places = this.places;
         const filteredSuggestions = places.filter(place => place.toLowerCase().indexOf(userInput.toLowerCase()) > -1);
         this.setState({ 
             filteredSuggestions,
