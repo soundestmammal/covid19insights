@@ -9,7 +9,7 @@ const StatePath = (props) => {
                 key={'path' + unique}
                 d={draw.shape}
                 stroke="#fff"
-                strokeWidth="1px"
+                strokeWidth="2px"
                 style={{cursor: "pointer", fill: fill}}
                 onClick={(e) => {
                     props.nav(data);
