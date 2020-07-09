@@ -231,3 +231,10 @@
   color: rgb(130,130,130);
   font-size: 0.8em;
 }
+
+/* Charts */
+
+.charts-container {
+  width: 50%;
+  margin: 0 auto;
+}

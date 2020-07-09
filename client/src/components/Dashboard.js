@@ -3,6 +3,8 @@ import Searchbar from './Searchbar';
 import '../App.css';
 import Summary from './Summary';
 import riskData from '../json/risk-level-7-days.json';
+import positiveTestRateData from '../json/positive-test-rates-for-ui.json';
+import PositiveTestRate from './charts/PositiveTestRate';
 
 class Dashboard extends Component {
 
@@ -74,11 +76,14 @@ class Dashboard extends Component {
 
 
     render(){
+        let thisStateData = positiveTestRateData[this.props.state];
+        let indexOfLastDay = thisStateData.length-1;
+        let currentPositiveTestRate = (thisStateData[indexOfLastDay].y *100).toFixed(1);
         const summaryProps = {
             state: this.props.state,
             risk: "Outbreak",
             reproductionRate: "1.38",
-            positiveTestRate: "15.9",
+            positiveTestRate: currentPositiveTestRate,
             contactTraceRate: this.getContactTraceRate(this.props.state),
             updated: "June 27, 2020"
         }
@@ -89,6 +94,9 @@ class Dashboard extends Component {
                 </div>
                 {this.getRiskLevel(this.props.state)}
                 <Summary {...summaryProps} />
+                <div className="charts-container">
+                    <PositiveTestRate state={this.props.state} positiveTestRateData={positiveTestRateData} />
+                </div>
             </div>
         );
     }

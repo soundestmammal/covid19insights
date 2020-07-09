@@ -2,7 +2,36 @@ import React from 'react';
 
 const Summary = (props) => {
 
-    const {state, risk, reproductionRate, positiveTestRate, contactTraceRate, updated } = props;
+    const { state, risk, reproductionRate, positiveTestRate, contactTraceRate, updated } = props;
+
+    function renderPositiveTestRateContent() {
+        let subtitle;
+        let riskLevel;
+        if(positiveTestRate < 3) {
+            subtitle = "Indicates widespread testing";
+            riskLevel = "Low";
+        } else if (positiveTestRate >= 3 && positiveTestRate < 10) {
+            subtitle = "Indicates adequate testing";
+            riskLevel = "Medium";
+        } else if(positiveTestRate >= 10 && positiveTestRate < 20) {
+            subtitle = "Indicates insufficent testing";
+            riskLevel = "High";
+        } else if(positiveTestRate >= 20 && positiveTestRate <= 100) {
+            subtitle = "Indicates dangerously little testing";
+            riskLevel = "Critical";
+        } else {
+            throw new Error("Positive test rate was not calculated right");
+        }
+
+        return(
+            <div className="indicator-card-content">
+                <span className="title">Positive Test Rate</span>
+                <span className="subtitle">{subtitle}</span>
+                <span className="data-value">{positiveTestRate || "N/A"}%</span>
+                <span className="risk">{riskLevel}</span>
+            </div>
+        );
+    }
 
     return (
         <div className="summary-container">
@@ -29,12 +58,7 @@ const Summary = (props) => {
                     </div>
                 </div>
                 <div className="indicator-card">
-                    <div className="indicator-card-content">
-                        <span className="title">Positive Test Rate</span>
-                        <span className="subtitle">The number of daily cases is decreasing</span>
-                        <span className="data-value">{positiveTestRate || "1.00"}%</span>
-                        <span className="risk">Low</span>
-                    </div>
+                    {renderPositiveTestRateContent()}
                 </div>
                 <div className="indicator-card">
                     <div className="indicator-card-content">
