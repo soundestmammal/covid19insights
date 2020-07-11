@@ -6,12 +6,15 @@ import riskData from '../json/risk-level-7-days.json';
 import positiveTestRateData from '../json/positive-test-rates-for-ui.json';
 import dailyCaseData from '../json/dailyCaseData.json';
 import dailyCaseDataMovingAverage from '../json/daily-cases-moving-average.json';
+import dailyDeathData from '../json/dailyDeathData.json';
+import dailyDeathDataMovingAverage from'../json/daily-deaths-moving-average.json';
 
 // Components
 import Searchbar from './Searchbar';
 import Summary from './Summary';
 import PositiveTestRate from './charts/PositiveTestRate';
 import DailyCases from './charts/DailyCases';
+import DailyDeaths from './charts/DailyDeaths';
 
 class Dashboard extends Component {
 
@@ -102,6 +105,7 @@ class Dashboard extends Component {
                 <div className="charts-container">
                     <PositiveTestRate state={this.props.state} positiveTestRateData={positiveTestRateData} />
                     <DailyCases state={this.props.state} barData={dailyCaseData[this.props.state]} movingData={dailyCaseDataMovingAverage[this.props.state]} />
+                    <DailyDeaths state={this.props.state} barData={dailyDeathData[this.props.state]} movingData={dailyDeathDataMovingAverage[this.props.state]} />
                 </div>
             </div>
         );
