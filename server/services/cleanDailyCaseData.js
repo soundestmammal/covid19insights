@@ -41,7 +41,7 @@ function createJson(data, states) {
     for(let i = 0; i < stateNames.length; i++) {
         let currentState = stateNames[i];
         const filtered = data.filter((data) => data.state === currentState);
-        let dailyData = cleanDailyCaseData(filtered, currentState);
+        let dailyData = cleanDailyCaseData(filtered);
         dataStructure[stateNames[i]] = dailyData;
     }
     return dataStructure;
