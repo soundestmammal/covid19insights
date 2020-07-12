@@ -7,7 +7,8 @@ import positiveTestRateData from '../json/positive-test-rates-for-ui.json';
 import dailyCaseData from '../json/dailyCaseData.json';
 import dailyCaseDataMovingAverage from '../json/daily-cases-moving-average.json';
 import dailyDeathData from '../json/dailyDeathData.json';
-import dailyDeathDataMovingAverage from'../json/daily-deaths-moving-average.json';
+import dailyDeathDataMovingAverage from '../json/daily-deaths-moving-average.json';
+import contactTraceRateData from '../json/contact-trace-percent-by-state.json';
 
 // Components
 import Searchbar from './Searchbar';
@@ -15,6 +16,7 @@ import Summary from './Summary';
 import PositiveTestRate from './charts/PositiveTestRate';
 import DailyCases from './charts/DailyCases';
 import DailyDeaths from './charts/DailyDeaths';
+import ContactTraceRate from './charts/ContactTraceRate';
 
 class Dashboard extends Component {
 
@@ -106,6 +108,7 @@ class Dashboard extends Component {
                     <PositiveTestRate state={this.props.state} positiveTestRateData={positiveTestRateData} />
                     <DailyCases state={this.props.state} barData={dailyCaseData[this.props.state]} movingData={dailyCaseDataMovingAverage[this.props.state]} />
                     <DailyDeaths state={this.props.state} barData={dailyDeathData[this.props.state]} movingData={dailyDeathDataMovingAverage[this.props.state]} />
+                    <ContactTraceRate state={this.props.state} data={contactTraceRateData[this.props.state]} />
                 </div>
             </div>
         );
