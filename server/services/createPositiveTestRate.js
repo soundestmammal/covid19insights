@@ -6,16 +6,12 @@ const states = require('../data/contract-trace-percent-by-state.json');
 const statesShort = require('../data/states.json');
 
 function csvToJsonHelper(){
-    let fileInput = '../data/positive-total-data.csv';
-    let fileOutput = 'positive-total-data.json';
+    let fileInput = '../data/';
+    let fileOutput = 'reproduction-rate.json';
     csvToJson.fieldDelimiter(',').generateJsonFileFromCsv(fileInput, fileOutput);
 }
 
 // csvToJsonHelper();
-
-// I need to have a state map data structure
-
-// Helper functions
 
 // Given an array of data from a single state
 function calculateDailyData(filtered, currentState) {
@@ -171,21 +167,10 @@ function createJson(data, states) {
     return dataStructure;
 }
 
-const prod = createJson(data, states);
-const json = JSON.stringify(prod);
+// const prod = createJson(data, states);
+// const json = JSON.stringify(prod);
 
-fs.writeFile('positive-test-rates-for-ui.json', json, (e) => {
-    if(e) return console.log(e);
-    console.log("Was able to write the file");
-});
-
-
-
-
-
-// const json = JSON.stringify(response);
-// fs.writeFile('risk-level-7-days.json', json, (err) => {
-//     if(err) throw err;
-//     console.log("This process was successful. The file was saved to disk.")
+// fs.writeFile('positive-test-rates-for-ui.json', json, (e) => {
+//     if(e) return console.log(e);
+//     console.log("Was able to write the file");
 // });
-
