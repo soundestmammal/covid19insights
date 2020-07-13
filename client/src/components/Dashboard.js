@@ -9,6 +9,7 @@ import dailyCaseDataMovingAverage from '../json/daily-cases-moving-average.json'
 import dailyDeathData from '../json/dailyDeathData.json';
 import dailyDeathDataMovingAverage from '../json/daily-deaths-moving-average.json';
 import contactTraceRateData from '../json/contact-trace-percent-by-state.json';
+import reproductionRateData from '../json/reproduction-rates-for-ui.json';
 
 // Components
 import Searchbar from './Searchbar';
@@ -17,6 +18,7 @@ import PositiveTestRate from './charts/PositiveTestRate';
 import DailyCases from './charts/DailyCases';
 import DailyDeaths from './charts/DailyDeaths';
 import ContactTraceRate from './charts/ContactTraceRate';
+import ReproductionRate from './charts/ReproductionRate';
 
 class Dashboard extends Component {
 
@@ -109,6 +111,7 @@ class Dashboard extends Component {
                     <DailyCases state={this.props.state} barData={dailyCaseData[this.props.state]} movingData={dailyCaseDataMovingAverage[this.props.state]} />
                     <DailyDeaths state={this.props.state} barData={dailyDeathData[this.props.state]} movingData={dailyDeathDataMovingAverage[this.props.state]} />
                     <ContactTraceRate state={this.props.state} data={contactTraceRateData[this.props.state]} />
+                    <ReproductionRate state={this.props.state} data={reproductionRateData[this.props.state]} />
                 </div>
             </div>
         );
