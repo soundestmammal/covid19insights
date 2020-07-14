@@ -48,7 +48,6 @@ class Dashboard extends Component {
     }
 
     riskLevelColorBackground = (findMeColor) => {
-        
         // const riskLevelColor = this.getRiskLevelColor(findMeColor);
         return <div style={{height: '380px', backgroundColor: `${findMeColor}`, zIndex: '1'}}></div>
     }
@@ -93,7 +92,7 @@ class Dashboard extends Component {
         let currentPositiveTestRate = (thisStateData[indexOfLastDay].y *100).toFixed(1);
         const summaryProps = {
             state: this.props.state,
-            risk: "Outbreak",
+            risk: "Critical",
             reproductionRate: "1.38",
             positiveTestRate: currentPositiveTestRate,
             contactTraceRate: this.getContactTraceRate(this.props.state),

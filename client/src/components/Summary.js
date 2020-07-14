@@ -27,8 +27,27 @@ const Summary = (props) => {
             <div className="indicator-card-content">
                 <span className="title">Positive Test Rate</span>
                 <span className="subtitle">{subtitle}</span>
-                <span className="data-value">{positiveTestRate || "N/A"}%</span>
+                <span className="data-value">{positiveTestRate}%</span>
                 <span className="risk">{riskLevel}</span>
+            </div>
+        );
+    }
+
+    function renderStateStatus() {
+        return(
+            <div className="state-status-container">
+                <span className="state-name">{state}</span>
+                <p>{state} is on track to contain COVID. Cases are steadily decreasing and {state}’s COVID preparedness meets or exceeds international standards.</p>
+            </div>
+        );
+    }
+
+    function renderRiskLevel() {
+        return (
+            <div className="risk-level">
+                <span className="top">{risk}</span>
+                <div className={`risk-level-color-${risk}`}></div>
+                <span className="">COVID Risk Level</span>
             </div>
         );
     }
@@ -37,16 +56,9 @@ const Summary = (props) => {
         <div className="summary-container">
             <div className="overview-container">
                 <div className="state-status">
-                    <div className="state-status-container">
-                        <span className="state-name">{state || "New York"}</span>
-                        <p>New York is on track to contain COVID. Cases are steadily decreasing and New York’s COVID preparedness meets or exceeds international standards.</p>
-                    </div>
+                    {renderStateStatus()}
                 </div>
-                <div className="risk-level">
-                    <span className="top">{risk || "Low"}</span>
-                    <div className="risk-level-color"></div>
-                    <span className="">COVID Risk Level</span>
-                </div>
+                {renderRiskLevel()}
             </div>
             <div className="indicator-container">
                 <div className="indicator-card">
