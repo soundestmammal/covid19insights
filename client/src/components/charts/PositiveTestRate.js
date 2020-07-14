@@ -33,7 +33,7 @@ const PositiveTestRate = (props) => {
                 yAxes: [{
                     ticks: {
                         beginAtZero: true,
-                        max: 1,
+                        max: 0.5,
                     },
                     gridLines: {
                         borderDash: [3, 2],
@@ -59,13 +59,33 @@ const PositiveTestRate = (props) => {
         }
         return(`New reported cases by day in ${props.county} County`);
     }
+
+    function renderInfo() {
+        return(
+            <div className="chart-info">
+                <span className="info-title">Positive Test Rate</span>
+                <span className="info-state">{props.state}</span>
+                <p classname="info-summary">A low percentage (1.1%) of COVID tests were positive, which suggests enough widespread, aggressive testing in {props.state} to detect most new cases. Identifying and isolating new cases can help contain COVID without resorting to lockdowns.</p>
+            </div>
+        );
+    }
+
+    function renderFooter() {
+        return(
+            <div className="chart-footer">
+                <p>Last updated 7/04/2020. The World Health Organization recommends a positive test rate of below 10%. The most successful countries have rates less than 3%. Each data point represents the 7-day trailing average.</p>
+            </div>
+        )
+    }
+
     return(
-        <div style={{width: '700px', margin: '0 auto'}}>
-            <h3>{renderLocation()}</h3>
+        <div style={{width: '1200px', margin: '0 auto'}}>
+            {renderInfo()}
             <Line
                 data={lineData}
                 options={options}
             />
+            {renderFooter()}
         </div>
     );
     // console.log("This is the data...", data[props.state]);
