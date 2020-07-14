@@ -107,11 +107,11 @@ class Dashboard extends Component {
                 {this.getRiskLevel(this.props.state)}
                 <Summary {...summaryProps} />
                 <div className="charts-container">
+                    <ReproductionRate state={this.props.state} data={reproductionRateData[this.props.state]} />
                     <PositiveTestRate state={this.props.state} positiveTestRateData={positiveTestRateData} />
                     <DailyCases state={this.props.state} barData={dailyCaseData[this.props.state]} movingData={dailyCaseDataMovingAverage[this.props.state]} />
                     <DailyDeaths state={this.props.state} barData={dailyDeathData[this.props.state]} movingData={dailyDeathDataMovingAverage[this.props.state]} />
                     <ContactTraceRate state={this.props.state} data={contactTraceRateData[this.props.state]} />
-                    <ReproductionRate state={this.props.state} data={reproductionRateData[this.props.state]} />
                 </div>
             </div>
         );

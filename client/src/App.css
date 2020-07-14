@@ -238,3 +238,38 @@
   width: 50%;
   margin: 0 auto;
 }
+
+.chart-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-title {
+  font-weight: bold;
+  font-size: 1.75em;
+  color: black;
+}
+
+.info-state {
+  color: gray;
+  text-transform: uppercase;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.info-summary {
+  position: relative;
+  color: slategray;
+  margin-top: 25px;
+  font-size: 1rem;
+  width: 50%;
+}
+
+.chart-footer {
+  margin-top: 1.5em;
+  color: rgba(0,0,0, 0.7);
+  font-size: 0.875rem;
+  background-color: rgba(0,0,0,.05);
+  width: 75%;
+}
