@@ -1,5 +1,6 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
+import "../../App.css";
 
 const ReproductionRate = (props) => {
     const { data } = props;
@@ -54,17 +55,36 @@ const ReproductionRate = (props) => {
     }
     function renderLocation() {
         if(props.state !== undefined) {
-            return(`Reproduciton rate in the state of ${props.state}`);
+            return(`Reproduction rate in the state of ${props.state}`);
         }
         return(`New reported cases by day in ${props.county} County`);
     }
+
+    function renderInfo() {
+        return(
+            <div className="chart-info">
+                <span className="info-title">Reproduction Rate</span>
+                <span className="info-state">{props.state}</span>
+                <p classname="info-summary">On average, each person in {props.state} with COVID is infecting 1.13 other people. As such, the total number of active cases in {props.state} is growing at an unsustainable rate. If this trend continues, the hospital system may become overloaded. Caution is warranted.</p>
+            </div>
+        );
+    }
+
+    function renderFooter() {
+        return(
+            <div className="chart-footer">
+                <p>Last updated 7/04/2020. Each data point represents the estimated daily reproduction rate. I present the most recent seven days of data as a dashed line, as data is often revised by states several days after reporting. The blue shadow above and below the line represent an 80% confidence interval. Source: Rt.live</p>
+            </div>
+        )
+    }
     return(
-        <div style={{width: '700px', margin: '0 auto'}}>
-            <h3>{renderLocation()}</h3>
+        <div style={{width: '700px', margin: '25px auto'}}>
+            {renderInfo()}
             <Line
                 data={lineData}
                 options={options}
             />
+            {renderFooter()}
         </div>
     );
 }
