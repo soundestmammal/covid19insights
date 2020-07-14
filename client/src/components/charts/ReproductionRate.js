@@ -4,7 +4,6 @@ import "../../App.css";
 
 const ReproductionRate = (props) => {
     const { data } = props;
-
     const lineData = {
         datasets: [
             {
@@ -13,7 +12,7 @@ const ReproductionRate = (props) => {
                 borderColor: 'red',
                 backgroundColor: 'rgba(0, 0, 0, 0)',
                 fill: true,
-                lineTension: 1,
+                // lineTension: 1,
                 pointRadius: 0,
                 borderWidth: 4,
             },
