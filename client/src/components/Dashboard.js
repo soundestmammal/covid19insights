@@ -109,9 +109,9 @@ class Dashboard extends Component {
                 <div className="charts-container">
                     <ReproductionRate state={this.props.state} data={reproductionRateData[this.props.state]} />
                     <PositiveTestRate state={this.props.state} positiveTestRateData={positiveTestRateData} />
+                    <ContactTraceRate state={this.props.state} data={contactTraceRateData[this.props.state]} />
                     <DailyCases state={this.props.state} barData={dailyCaseData[this.props.state]} movingData={dailyCaseDataMovingAverage[this.props.state]} />
                     <DailyDeaths state={this.props.state} barData={dailyDeathData[this.props.state]} movingData={dailyDeathDataMovingAverage[this.props.state]} />
-                    <ContactTraceRate state={this.props.state} data={contactTraceRateData[this.props.state]} />
                 </div>
             </div>
         );

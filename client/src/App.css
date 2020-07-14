@@ -235,13 +235,14 @@
 /* Charts */
 
 .charts-container {
-  width: 50%;
+  width: 75%;
   margin: 0 auto;
 }
 
 .chart-info {
   display: flex;
   flex-direction: column;
+  max-width: 75%;
 }
 
 .info-title {
@@ -271,5 +272,5 @@
   color: rgba(0,0,0, 0.7);
   font-size: 0.875rem;
   background-color: rgba(0,0,0,.05);
-  width: 75%;
+  max-width: 75%;
 }

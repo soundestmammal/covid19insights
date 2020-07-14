@@ -65,13 +65,31 @@ const DailyCases = (props) => {
         return(`New reported cases by day in ${props.county} County`);
     }
 
+    function renderInfo() {
+        return(
+            <div className="chart-info">
+                <span className="info-title">Daily cases</span>
+                <span className="info-state">{props.state}</span>
+            </div>
+        );
+    }
+
+    function renderFooter() {
+        return(
+            <div className="chart-footer">
+                <p>Last updated 7/10/2020. Source: New York Times</p>
+            </div>
+        )
+    }
+
     return(
-        <div style={{width: '700px', margin: '0 auto'}}>
-            <h3>{renderLocation()}</h3>
+        <div style={{width: '1200px', margin: '0 auto'}}>
+            {renderInfo()}
             <Bar
                 data={barData}
                 options={options}
             />
+            {renderFooter()}
         </div>
     );
 }

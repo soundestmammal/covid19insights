@@ -34,6 +34,7 @@ const ReproductionRate = (props) => {
                 yAxes: [{
                     ticks: {
                         beginAtZero: true,
+                        max: 2,
                     },
                     gridLines: {
                         borderDash: [3, 2],
@@ -78,7 +79,7 @@ const ReproductionRate = (props) => {
         )
     }
     return(
-        <div style={{width: '700px', margin: '25px auto'}}>
+        <div style={{width: '1200px', margin: '25px auto'}}>
             {renderInfo()}
             <Line
                 data={lineData}
