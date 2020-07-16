@@ -168,8 +168,28 @@
   width: 50%;
   text-align: center;
   border-radius: 4px;
-  color: rgb(0, 212, 116);
+  /* color: rgb(0, 212, 116); */
   font-weight: 700;
+}
+
+.low {
+  color: var(--clr-low);
+  text-transform: uppercase;
+}
+
+.medium {
+  color: var(--clr-medium);
+  text-transform: uppercase;
+}
+
+.high {
+  color: var(--clr-high);
+  text-transform: uppercase;
+}
+
+.critical {
+  color: var(--clr-critical);
+  text-transform: uppercase;
 }
 
 .state-status {
