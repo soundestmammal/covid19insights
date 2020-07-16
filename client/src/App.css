@@ -198,7 +198,7 @@
   background-color: rgb(242,242,242);
 }
 
-.risk-level-color-Low {
+.risk-level-color-low {
   margin-top: 5px;
   margin-bottom: 5px;
   height: 10px;
@@ -207,7 +207,7 @@
   background-color: var(--clr-low);
 }
 
-.risk-level-color-Medium {
+.risk-level-color-medium {
   margin-top: 5px;
   margin-bottom: 5px;
   height: 10px;
@@ -216,7 +216,7 @@
   background-color: var(--clr-medium);
 }
 
-.risk-level-color-High {
+.risk-level-color-high {
   margin-top: 5px;
   margin-bottom: 5px;
   height: 10px;
@@ -225,7 +225,7 @@
   background-color: var(--clr-high);
 }
 
-.risk-level-color-Critical {
+.risk-level-color-critical {
   margin-top: 5px;
   margin-bottom: 5px;
   height: 10px;
@@ -240,6 +240,7 @@
 .risk-level .top {
   font-size: 0.9em;
   font-weight: 700;
+  text-transform: uppercase;
 }
 
 .risk-level .bottom {

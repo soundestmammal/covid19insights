@@ -1,10 +1,15 @@
 import React from 'react';
 
 const Summary = (props) => {
-
-    const { state, risk, reproductionRate, positiveTestRate, contactTraceRate, updated } = props;
+    console.log(props.data);
+    const { state } = props;
+    let { riskLevel, reproductionRate, positiveTestRate, contactTraceRate } = props.data;
+    reproductionRate = reproductionRate.y;
+    positiveTestRate = Math.round(positiveTestRate.y*100);
+    contactTraceRate = Math.round(contactTraceRate.y*100);
 
     function renderPositiveTestRateContent() {
+        console.log("This is from within the positive test rate content", positiveTestRate);
         let subtitle;
         let riskLevel;
         if(positiveTestRate < 3) {
@@ -43,11 +48,26 @@ const Summary = (props) => {
     }
 
     function renderRiskLevel() {
+        console.log(riskLevel);
         return (
             <div className="risk-level">
-                <span className="top">{risk}</span>
-                <div className={`risk-level-color-${risk}`}></div>
+                <span className="top">{riskLevel}</span>
+                <div className={`risk-level-color-${riskLevel}`}></div>
                 <span className="">COVID Risk Level</span>
+            </div>
+        );
+    }
+
+    function renderReproductionRateContent() {
+
+        // if(reproductionRate > )
+
+        return(
+            <div className="indicator-card-content">
+                <span className="title">Reproduction rate</span>
+                <span className="subtitle">The number of daily cases are decreasing</span>
+                <span className="data-value">{reproductionRate}</span>
+                <span className="risk">Low</span>
             </div>
         );
     }
@@ -65,7 +85,7 @@ const Summary = (props) => {
                     <div className="indicator-card-content">
                         <span className="title">Reproduction rate</span>
                         <span className="subtitle">The number of daily cases are decreasing</span>
-                        <span className="data-value">{reproductionRate || "0.95"}%</span>
+                        <span className="data-value">{reproductionRate}</span>
                         <span className="risk">Low</span>
                     </div>
                 </div>
@@ -76,14 +96,13 @@ const Summary = (props) => {
                     <div className="indicator-card-content">
                         <span className="title">Contact Trace Rate</span>
                         <span className="subtitle">The number of daily cases is decreasing</span>
-                        <span className="data-value">{contactTraceRate || "100"}%</span>
+                        <span className="data-value">{contactTraceRate}%</span>
                         <span className="risk">Low</span>
                     </div>
                 </div>
-                {/* <div className="indicator-card">Fourth data indicator</div> */}
             </div>
             <div className="last-updated">
-                <span>{updated || "Updated June 27, 2020"}</span>
+                <span>{"Updated June 27, 2020"}</span>
             </div>
         </div>
     )
