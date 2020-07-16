@@ -36,7 +36,7 @@ function generateUIData(filteredByStateData) {
  * @param {Array} data
  * @param {Object} states
  */
-function createJson(data, states) {
+module.exports = function createJson(data, states) {
     const dataStructure = {};
     const stateNames = [...Object.keys(states)];
 
@@ -53,10 +53,10 @@ function createJson(data, states) {
     return dataStructure;
 }
 
-const prod = createJson(data, states);
-const json = JSON.stringify(prod);
+// const prod = createJson(data, states);
+// const json = JSON.stringify(prod);
 
-fs.writeFile('reproduction-rates-for-ui.json', json, (e) => {
-    if(e) return console.log(e);
-    console.log("Was able to write the file");
-});
+// fs.writeFile('reproduction-rates-for-ui.json', json, (e) => {
+//     if(e) return console.log(e);
+//     console.log("Was able to write the file");
+// });
