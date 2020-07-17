@@ -5,7 +5,7 @@ import FormControl from 'react-bootstrap/FormControl';
 import "../App.css";
 import states from '../json/states.json';
 
-class Hero extends Component {
+class Searchbar extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -155,20 +155,17 @@ class Hero extends Component {
         }
         return(
             <div>
-                <div className="jumbotron" style={{ display: 'block', height: this.props.height}}>
-                    {this.renderText()}
-                    <div style={{width: '50%', margin: '0 auto'}}>
+                <div style={{width: '50%', margin: '0 auto'}}>
                     <form>
-                        <InputGroup size="lg" className="mx-auto">
+                        <InputGroup size="lg" className="mx-auto w-100">
                             <FormControl value={textInput} onChange={onChangeText} onKeyDown={onKeyDown} placeholder="Search for your state or county" aria-label="Large" aria-describedby="inputGroup-sizing-sm" />
                         </InputGroup>
                     </form>
                     {suggestionsListComponent}
-                    </div>
                 </div>
             </div>
         );
     }
 }
 
-export default Hero;
+export default Searchbar;

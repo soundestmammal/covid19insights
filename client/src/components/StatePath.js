@@ -9,16 +9,16 @@ const StatePath = (props) => {
                 key={'path' + unique}
                 d={draw.shape}
                 stroke="#fff"
-                strokeWidth="1px"
+                strokeWidth="2px"
                 style={{cursor: "pointer", fill: fill}}
                 onClick={(e) => {
                     props.nav(data);
                 }}
                 onMouseOver={(event) => {
-                    event.target.style.fill = 'orange';
+                    event.target.style.fill = fill;
                 }}
                 onMouseOut={(event) => {
-                    event.target.style.fill = 'blue';
+                    event.target.style.fill = fill;
                 }}
             />
        </Link>
