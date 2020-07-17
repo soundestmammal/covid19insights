@@ -28,9 +28,6 @@ const DailyCases = (props) => {
             scales: {
                 xAxes: [{
                     type: 'time',
-                    gridLines: {
-
-                    },
                     time: {
                         unit: 'month'
                     },
@@ -57,12 +54,6 @@ const DailyCases = (props) => {
             animation: {
                 duration: 1000
             }
-    }
-    function renderLocation() {
-        if(props.state !== undefined) {
-            return(`New reported cases by day in ${props.state}`);
-        }
-        return(`New reported cases by day in ${props.county} County`);
     }
 
     function renderInfo() {

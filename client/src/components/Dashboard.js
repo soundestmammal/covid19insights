@@ -23,22 +23,7 @@ import ReproductionRate from './charts/ReproductionRate';
 
 class Dashboard extends Component {
 
-    /**
-     * Props for Summary:
-     * String State
-     * String Risk Level
-     * Reproduction Rate
-     * Positive Test Rate
-     * Contact Trace Rate
-     * Date Last Updated
-     * 
-     * Props for Charts
-     * 
-     */
-
-
-    // Conditional data
-    // Color of the background
+    // Conditional data color of the background
     getRiskLevelColor = (riskLevel) => {
         const riskLevelColorMap = {
             low: "rgb(0, 212, 116)",
@@ -65,17 +50,6 @@ class Dashboard extends Component {
     }
 
     render(){
-        let thisStateData = positiveTestRateData[this.props.state];
-        let indexOfLastDay = thisStateData.length-1;
-        let currentPositiveTestRate = (thisStateData[indexOfLastDay].y *100).toFixed(1);
-        // const summaryProps = {
-        //     state: this.props.state,
-        //     risk: "Critical",
-        //     reproductionRate: "1.38",
-        //     positiveTestRate: currentPositiveTestRate,
-        //     contactTraceRate: this.getContactTraceRate(this.props.state),
-        //     updated: "June 27, 2020"
-        // }
         return(
             <div>
                 <div className="dashboard-risk-level-background">
@@ -84,9 +58,9 @@ class Dashboard extends Component {
                 {this.riskLevelColorBackground(summaryData[this.props.state].riskLevel)}
                 <Summary state={this.props.state} data={summaryData[this.props.state]} />
                 <div className="charts-container">
-                    <ReproductionRate state={this.props.state} data={reproductionRateData[this.props.state]} />
-                    <PositiveTestRate state={this.props.state} positiveTestRateData={positiveTestRateData} />
-                    <ContactTraceRate state={this.props.state} data={contactTraceRateData[this.props.state]} />
+                    <ReproductionRate state={this.props.state} data={reproductionRateData[this.props.state]} summary={summaryData[this.props.state]} />
+                    <PositiveTestRate state={this.props.state} positiveTestRateData={positiveTestRateData} summary={summaryData[this.props.state]} />
+                    <ContactTraceRate state={this.props.state} data={contactTraceRateData[this.props.state]} summary={summaryData[this.props.state]} />
                     <DailyCases state={this.props.state} barData={dailyCaseData[this.props.state]} movingData={dailyCaseDataMovingAverage[this.props.state]} />
                     <DailyDeaths state={this.props.state} barData={dailyDeathData[this.props.state]} movingData={dailyDeathDataMovingAverage[this.props.state]} />
                 </div>

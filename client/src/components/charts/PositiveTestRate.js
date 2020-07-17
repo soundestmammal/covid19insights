@@ -12,7 +12,6 @@ const PositiveTestRate = (props) => {
                 borderColor: 'green',
                 backgroundColor: 'rgba(0, 255, 0, 0.2)',
                 fill: true,
-                // lineTension: 1,
                 pointRadius: 0,
                 borderWidth: 4,
             },
@@ -20,52 +19,54 @@ const PositiveTestRate = (props) => {
     }
     
     const options = {
-            scales: {
-                xAxes: [{
-                    type: 'time',
-                    gridLines: {
-                        // display: false
-                    },
-                    time: {
-                        unit: 'month'
-                    },
-                }],
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true,
-                        max: 0.5,
-                    },
-                    gridLines: {
-                        borderDash: [3, 2],
-                        // drawBorder: false,
-                    }
-                }]
-            },
-            hover: {
-                intersect: false,
-                animationDuration: 100
-            },
-            tooltips: {
-                intersect: false,
-                mode: 'index',
-            },
-            animation: {
-                duration: 1000
-            },
-    }
-    function renderLocation() {
-        if(props.state !== undefined) {
-            return(`7 day moving average of the positive test rate in the state of ${props.state}`);
-        }
-        return(`New reported cases by day in ${props.county} County`);
+        scales: {
+            xAxes: [{
+                type: 'time',
+                time: {
+                    unit: 'month'
+                },
+            }],
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true,
+                    max: 0.5,
+                },
+                gridLines: {
+                    borderDash: [3, 2],
+                }
+            }]
+        },
+        hover: {
+            intersect: false,
+            animationDuration: 100
+        },
+        tooltips: {
+            intersect: false,
+            mode: 'index',
+        },
+        animation: {
+            duration: 1000
+        },
     }
 
     function renderInfo() {
+        const positiveTestRate = Math.round(props.summary.positiveTestRate.y*100);
+        let summary;
+        if(positiveTestRate < 3) {
+            summary = `A low percentage ${positiveTestRate}% of COVID tests were positive, which suggests widespread testing is available.`;
+        } else if (positiveTestRate >= 3 && positiveTestRate < 10) {
+            summary = `A moderate percentage ${positiveTestRate}% of COVID tests were positive, which suggests testing is available but not widespread.`;
+        } else if(positiveTestRate >= 10 && positiveTestRate < 20) {
+            summary = `A large percentage ${positiveTestRate}% of COVID tests were positive, which suggests that testing is limited.`;
+        } else if(positiveTestRate >= 20 && positiveTestRate <= 100) {
+            summary = `A massive percentage ${positiveTestRate}% of COVID tests were positive, which suggests testing is unable to keep up with demand. With a rate this high, many cases may exist undetected.`;
+        }
+        console.log("This is here", summary);
         return(
             <div className="chart-info">
                 <span className="info-title">Positive Test Rate</span>
                 <span className="info-state">{props.state}</span>
-                <p classname="info-summary">A low percentage (1.1%) of COVID tests were positive, which suggests enough widespread, aggressive testing in {props.state} to detect most new cases. Identifying and isolating new cases can help contain COVID without resorting to lockdowns.</p>
+                <p classname="info-summary">{summary}</p>
             </div>
         );
     }
@@ -88,8 +89,6 @@ const PositiveTestRate = (props) => {
             {renderFooter()}
         </div>
     );
-    // console.log("This is the data...", data[props.state]);
-    // return<div>This is the PositiveTestRate chart for the state of {props.state}</div>
 }
 
 export default PositiveTestRate;
