@@ -59,13 +59,6 @@ const DailyDeaths = (props) => {
             }
     }
 
-    function renderLocation() {
-        if(props.state !== undefined) {
-            return(`Daily deaths in ${props.state}`);
-        }
-        return(`Daily deaths in ${props.county} County`);
-    }
-
     function renderInfo() {
         return(
             <div className="chart-info">

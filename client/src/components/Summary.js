@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Summary = (props) => {
-    console.log(props.data);
     const { state } = props;
     let { riskLevel, reproductionRate, positiveTestRate, contactTraceRate } = props.data;
     reproductionRate = reproductionRate.y;
@@ -25,7 +24,7 @@ const Summary = (props) => {
             subtitle = "Indicates dangerously little testing";
             riskLevel = "critical";
         } else {
-            throw new Error("Positive test rate was not calculated right");
+            throw new Error("Positive test rate was calculated incorrectly");
         }
 
         return(
@@ -48,9 +47,6 @@ const Summary = (props) => {
             status = `${state} is controlling the growth of cases.`;
         } else if (reproductionRate < 1) {
             status = `${state} is seeing a reduction in daily cases. The size of the outbreak is shrinking.`;
-        } else {
-            throw new Error("There was an error in rendering the State Status");
-            // Have something handle a default case catch bugs.
         }
 
         return(
@@ -62,7 +58,6 @@ const Summary = (props) => {
     }
 
     function renderRiskLevel() {
-        console.log(riskLevel);
         return (
             <div className="risk-level">
                 <span className="top">{riskLevel}</span>
@@ -73,17 +68,12 @@ const Summary = (props) => {
     }
 
     function renderReproductionRateContent() {
-
-        // I need to do a few things here
-
-        // 1. I need to conditionally render the subtitle.
         let subtitle;
         if(reproductionRate < 1) {
             subtitle = "The number of daily cases is decreasing";
         } else {
             subtitle = "The number of daily cases is increasing";
         }
-        console.log("Subtitle", subtitle);
         return(
             <div className="indicator-card-content">
                 <span className="title">Reproduction rate</span>
@@ -95,21 +85,25 @@ const Summary = (props) => {
     }
 
     function renderContactTraceRateContent() {
-        console.log("Contact Trace Rate", contactTraceRate);
         let subtitle;
-        let riskLevel;
+        let riskLevelColor;
+        let text;
         if(contactTraceRate >= 90) {
-            subtitle = "Contact tracing level is sufficient"
-            riskLevel = "low";
+            subtitle = "Contact tracing is slowing the spread"
+            riskLevelColor = "low";
+            text = "high";
         } else if(contactTraceRate < 90 && contactTraceRate >= 20) {
-            subtitle = "Contact tracing level is fair";
-            riskLevel = "medium";
+            subtitle = "Contact tracing is lacking";
+            riskLevelColor = "medium";
+            text = "medium";
         } else if (contactTraceRate >= 3 && contactTraceRate < 20) {
-            subtitle = "Contact tracing level is failing";
-            riskLevel = "high";
+            subtitle = "Contact tracing is failing";
+            riskLevelColor = "high";
+            text = "low";
         } else if (contactTraceRate < 3) {
             subtitle = "Contact tracing has collapsed";
-            riskLevel = "critical";
+            riskLevelColor = "critical";
+            text = "critical"
         }
 
         return(
@@ -117,7 +111,7 @@ const Summary = (props) => {
                 <span className="title">Contact Trace Rate</span>
                 <span className="subtitle">{subtitle}</span>
                 <span className="data-value">{contactTraceRate}%</span>
-                <span className={`risk ${riskLevel}`}>{riskLevel}</span>
+                <span className={`risk ${riskLevelColor}`}>{text}</span>
             </div>
         );
     }

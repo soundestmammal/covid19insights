@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import App from './App';
 import Navbar from './Navbar';
 import Hero from './components/Hero';
 import Indicators from './components/Indicators';
 import USMap from './components/USMap';
 import Dashboard from './components/Dashboard';
-
 
 class AppRouter extends Component {
 
@@ -32,8 +30,7 @@ class AppRouter extends Component {
                         <USMap nav={this.navToState} /> 
                     </Route>
                     <Route path="/detail">
-                        <Dashboard style={{marginTop: '56px', height: '380px', backgroundColor: 'rgb(0, 212, 116'}} riskLevel={"yellow"} state={this.state.currentState}/>
-                        {/* <App state={this.state.currentState} /> */}
+                        <Dashboard style={{marginTop: '56px', height: '380px',}} state={this.state.currentState} />
                     </Route>
                 </Router>
             </div>
