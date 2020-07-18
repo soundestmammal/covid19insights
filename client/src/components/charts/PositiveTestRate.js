@@ -61,7 +61,6 @@ const PositiveTestRate = (props) => {
         } else if(positiveTestRate >= 20 && positiveTestRate <= 100) {
             summary = `A massive percentage ${positiveTestRate}% of COVID tests were positive, which suggests testing is unable to keep up with demand. With a rate this high, many cases may exist undetected.`;
         }
-        console.log("This is here", summary);
         return(
             <div className="chart-info">
                 <span className="info-title">Positive Test Rate</span>
