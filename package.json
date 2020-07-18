@@ -1,0 +1,19 @@
+{
+  "name": "covid19insights",
+  "version": "1.0.0",
+  "description": "covid19insights",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/soundestmammal/covid19insights.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/soundestmammal/covid19insights/issues"
+  },
+  "homepage": "https://github.com/soundestmammal/covid19insights#readme"
+}
