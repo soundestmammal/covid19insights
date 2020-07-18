@@ -1,0 +1,1 @@
+An interactive dashboard display COVID-19 trends.
