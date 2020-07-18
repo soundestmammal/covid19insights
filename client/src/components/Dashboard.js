@@ -37,7 +37,6 @@ class Dashboard extends Component {
     // This actually returns the div...
     riskLevelColorBackground = (riskLevel) => {
         let thisColor = this.getRiskLevelColor(riskLevel);
-        console.log(thisColor);
         return <div style={{height: '380px', backgroundColor: `${thisColor}` , zIndex: '1'}}></div>
     }
 

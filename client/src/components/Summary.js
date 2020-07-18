@@ -8,7 +8,6 @@ const Summary = (props) => {
     contactTraceRate = Math.round(contactTraceRate.y*100);
 
     function renderPositiveTestRateContent() {
-        console.log("This is from within the positive test rate content", positiveTestRate);
         let subtitle;
         let riskLevel;
         if(positiveTestRate < 3) {
