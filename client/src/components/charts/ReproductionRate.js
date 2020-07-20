@@ -69,7 +69,7 @@ const ReproductionRate = (props) => {
         )
     }
     return(
-        <div style={{width: '1200px', margin: '25px auto'}}>
+        <div className="chart-width">
             {renderInfo()}
             <Line
                 data={lineData}
