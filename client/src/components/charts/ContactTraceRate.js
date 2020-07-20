@@ -69,7 +69,7 @@ const ContactTraceRate = (props) => {
     }
 
     return(
-        <div style={{width: '1200px', margin: '0 auto'}}>
+        <div>
             {renderInfo()}
             <Line
                 data={lineData}

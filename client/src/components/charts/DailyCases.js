@@ -74,7 +74,7 @@ const DailyCases = (props) => {
     }
 
     return(
-        <div style={{width: '1200px', margin: '0 auto'}}>
+        <div>
             {renderInfo()}
             <Bar
                 data={barData}
