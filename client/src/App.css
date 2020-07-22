@@ -703,3 +703,9 @@
     height: 700px;
   }
 }
+
+/* US Map Home Screen */
+.us-map-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}

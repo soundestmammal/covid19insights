@@ -29,7 +29,7 @@ class USMap extends Component {
             </StatePath>
         );
         return (
-            <div style={{width: '1000px', margin: '0 auto'}}>
+            <div className="us-map-container">
                 <svg viewBox="0 0 960 600">
                     {map}
                 </svg>
