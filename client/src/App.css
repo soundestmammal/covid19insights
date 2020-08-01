@@ -666,7 +666,7 @@
 .chart-info {
   display: flex;
   flex-direction: column;
-  max-width: 75%;
+  width: 75%;
 }
 
 .info-title {
@@ -698,9 +698,61 @@
   background-color: rgba(0,0,0,.05);
   max-width: 75%;
 }
-@media (max-width: 760) {
-  .chart-width {
-    height: 700px;
+
+.chart-styles {
+  height: 40vh;
+  border: 5px solid blueviolet;
+}
+
+.chart-height {
+  height: 40vh;
+}
+
+/* iPhone 6/7/8/X */
+@media (max-width: 375px) {
+  /* Summary */
+  .summary-container {
+    width: 90%;
+    background-color: rgb(251,251,251);
+    height: 800px;
+    display: flex;
+    flex-direction: column;
+    margin: -325px auto 0;
+    border-radius: 8px;
+    box-shadow: rgba(0,0,0,0.2) 0px 4px 20px;
+    overflow: hidden;
+  }
+
+  /* Chart */
+  .charts-container {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .chart-info {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .info-summary {
+    position: relative;
+    color: slategray;
+    margin-top: 25px;
+    font-size: 1rem;
+    width: 100%;
+  }
+
+  .chart-footer {
+    margin-top: 1.5em;
+    color: rgba(0,0,0, 0.7);
+    font-size: 0.875rem;
+    background-color: rgba(0,0,0,.05);
+    max-width: 100%;
+  }
+
+  .chart-height {
+    height: 70vh;
   }
 }
 
