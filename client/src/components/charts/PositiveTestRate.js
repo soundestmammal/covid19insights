@@ -47,6 +47,7 @@ const PositiveTestRate = (props) => {
         animation: {
             duration: 1000
         },
+        maintainAspectRatio: false,
     }
 
     function renderInfo() {
@@ -79,12 +80,14 @@ const PositiveTestRate = (props) => {
     }
 
     return(
-        <div style={{width: '1200px', margin: '0 auto'}}>
+        <div>
             {renderInfo()}
-            <Line
-                data={lineData}
-                options={options}
-            />
+            <div className="chart-height">
+                <Line
+                    data={lineData}
+                    options={options}
+                />
+            </div>
             {renderFooter()}
         </div>
     );
