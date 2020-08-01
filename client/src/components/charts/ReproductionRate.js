@@ -48,6 +48,7 @@ const ReproductionRate = (props) => {
             animation: {
                 duration: 1000
             },
+            maintainAspectRatio: false,
     }
 
     function renderInfo() {
@@ -55,7 +56,7 @@ const ReproductionRate = (props) => {
             <div className="chart-info">
                 <span className="info-title">Reproduction Rate</span>
                 <span className="info-state">{props.state}</span>
-                <p classname="info-summary">On average, each person in {props.state} with COVID is infecting {reproductionRate} other people. As such, the total number of active cases in {props.state} is growing at an unsustainable rate. If this trend continues, the hospital system may become overloaded. Caution is warranted.</p>
+                <p className="info-summary">On average, each person in {props.state} with COVID is infecting {reproductionRate} other people. As such, the total number of active cases in {props.state} is growing at an unsustainable rate. If this trend continues, the hospital system may become overloaded. Caution is warranted.</p>
             </div>
         );
     }
@@ -69,12 +70,14 @@ const ReproductionRate = (props) => {
         )
     }
     return(
-        <div className="chart-width">
+        <div>
             {renderInfo()}
-            <Line
-                data={lineData}
-                options={options}
-            />
+            <div className="chart-height">
+                <Line
+                    data={lineData}
+                    options={options}
+                />
+            </div>
             {renderFooter()}
         </div>
     );
