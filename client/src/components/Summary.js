@@ -51,7 +51,7 @@ const Summary = (props) => {
         return(
             <div className="state-status-container">
                 <span className="state-name">{state}</span>
-                <p>{status}</p>
+                <span>{status}</span>
             </div>
         );
     }

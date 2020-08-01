@@ -53,7 +53,8 @@ const DailyCases = (props) => {
             },
             animation: {
                 duration: 1000
-            }
+            },
+            maintainAspectRatio: false,
     }
 
     function renderInfo() {
@@ -74,12 +75,14 @@ const DailyCases = (props) => {
     }
 
     return(
-        <div style={{width: '1200px', margin: '0 auto'}}>
+        <div>
             {renderInfo()}
-            <Bar
-                data={barData}
-                options={options}
-            />
+            <div className="chart-height">
+                <Bar
+                    data={barData}
+                    options={options}
+                />
+            </div>
             {renderFooter()}
         </div>
     );
