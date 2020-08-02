@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import StatePath from './StatePath';
 import states from '../json/states.json';
-import summary from '../json/summary.json';
 
 class USMap extends Component {
 
     getRiskLevelColor = (state) => {
-        let riskLevel = summary[state].riskLevel;
+        let riskLevel = this.props.data[state].riskLevel;
         const riskLevelColorMap = {
             low: "rgb(0, 212, 116)",
             medium: "rgb(255, 201, 0)",
