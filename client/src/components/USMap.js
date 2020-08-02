@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import StatePath from './StatePath';
 import states from '../json/states.json';
-import summary from '../json/summary.json';
 
 class USMap extends Component {
 
     getRiskLevelColor = (state) => {
-        let riskLevel = summary[state].riskLevel;
+        let riskLevel = this.props.data[state].riskLevel;
         const riskLevelColorMap = {
             low: "rgb(0, 212, 116)",
             medium: "rgb(255, 201, 0)",
@@ -29,7 +28,7 @@ class USMap extends Component {
             </StatePath>
         );
         return (
-            <div style={{width: '1000px', margin: '0 auto'}}>
+            <div className="us-map-container">
                 <svg viewBox="0 0 960 600">
                     {map}
                 </svg>
