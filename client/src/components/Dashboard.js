@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import '../App.css';
 
-// Data
-// import riskData from '../json/risk-level-7-days.json';
-
 // Components
 import Searchbar from './Searchbar';
 import Summary from './Summary';
