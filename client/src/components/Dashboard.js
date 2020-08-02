@@ -1,17 +1,6 @@
 import React, { Component } from 'react';
 import '../App.css';
 
-// Data
-import riskData from '../json/risk-level-7-days.json';
-import positiveTestRateData from '../json/positive-test-rates-for-ui.json';
-import dailyCaseData from '../json/dailyCaseData.json';
-import dailyCaseDataMovingAverage from '../json/daily-cases-moving-average.json';
-import dailyDeathData from '../json/dailyDeathData.json';
-import dailyDeathDataMovingAverage from '../json/daily-deaths-moving-average.json';
-import contactTraceRateData from '../json/contact-trace-percent-by-state.json';
-import reproductionRateData from '../json/reproduction-rates-for-ui.json';
-import summaryData from '../json/summary.json';
-
 // Components
 import Searchbar from './Searchbar';
 import Summary from './Summary';
@@ -41,7 +30,7 @@ class Dashboard extends Component {
     }
 
     getContactTraceRate = (state) => {
-        const riskLevelData = riskData;
+        const riskLevelData = this.props.data.riskLevel;
         let num = riskLevelData[state];
         num = num * 100;
         num = Math.round(num);
@@ -49,19 +38,21 @@ class Dashboard extends Component {
     }
 
     render(){
+        const { reproductionRate, positiveTestRate, contactTraceRate, dailyCases, dailyCasesMA, dailyDeaths, dailyDeathsMA, summary } = this.props.data;
+        const { state } = this.props;
         return(
             <div>
                 <div className="dashboard-risk-level-background">
                     <Searchbar />
                 </div>
-                {this.riskLevelColorBackground(summaryData[this.props.state].riskLevel)}
-                <Summary state={this.props.state} data={summaryData[this.props.state]} />
+                {this.riskLevelColorBackground(summary[state].riskLevel)}
+                <Summary state={state} data={summary[state]} />
                 <div className="charts-container">
-                    <ReproductionRate state={this.props.state} data={reproductionRateData[this.props.state]} summary={summaryData[this.props.state]} />
-                    <PositiveTestRate state={this.props.state} positiveTestRateData={positiveTestRateData} summary={summaryData[this.props.state]} />
-                    <ContactTraceRate state={this.props.state} data={contactTraceRateData[this.props.state]} summary={summaryData[this.props.state]} />
-                    <DailyCases state={this.props.state} barData={dailyCaseData[this.props.state]} movingData={dailyCaseDataMovingAverage[this.props.state]} />
-                    <DailyDeaths state={this.props.state} barData={dailyDeathData[this.props.state]} movingData={dailyDeathDataMovingAverage[this.props.state]} />
+                    <ReproductionRate state={state} data={reproductionRate[state]} summary={summary[state]} />
+                    <PositiveTestRate state={state} positiveTestRateData={positiveTestRate} summary={summary[state]} />
+                    <ContactTraceRate state={state} data={contactTraceRate[state]} summary={summary[state]} />
+                    <DailyCases state={state} barData={dailyCases[state]} movingData={dailyCasesMA[state]} />
+                    <DailyDeaths state={state} barData={dailyDeaths[state]} movingData={dailyDeathsMA[state]} />
                 </div>
             </div>
         );

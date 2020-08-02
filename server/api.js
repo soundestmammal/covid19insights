@@ -1,4 +1,7 @@
 const express = require('express');
+const cors = require('cors');
+const morgan = require('morgan');
+
 const riskData = require('./data/risk-level-7-days.json');
 const reproductionRateData = require('./data/reproduction-rates-for-ui.json');
 const contactTraceRateData = require('./data/contract-trace-percent-by-state.json');
@@ -12,6 +15,12 @@ const summaryData = require('./data/summary.json');
 require('./config/db');
 
 const app = express();
+
+app.use(cors({
+    origin: '*'
+}));
+
+app.use(morgan('combined'));
 
 app.get('/', (req, res) => {
     res.send("Welcome to the root route!");
