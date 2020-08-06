@@ -1,12 +1,12 @@
 const fs = require('fs');
 const csvToJson = require('convert-csv-to-json');
-const data = require('./reproduction-rate.json');
+const data = require('../data/raw-json/reproduction-rate.json');
 const states = require('../data/contract-trace-percent-by-state.json');
 
 // Transform the CSV Input into JSON format
 function csvToJsonHelper(){
-    let fileInput = '../data/reproduction-rate.csv';
-    let fileOutput = 'reproduction-rate.json';
+    let fileInput = '../data/raw/reproduction-rate.csv';
+    let fileOutput = '../data/raw-json/reproduction-rate.json';
     csvToJson.fieldDelimiter(',').generateJsonFileFromCsv(fileInput, fileOutput);
 }
 
@@ -36,7 +36,7 @@ function generateUIData(filteredByStateData) {
  * @param {Array} data
  * @param {Object} states
  */
-module.exports = function createJson(data, states) {
+ function createJson(data, states) {
     const dataStructure = {};
     const stateNames = [...Object.keys(states)];
 
@@ -53,10 +53,10 @@ module.exports = function createJson(data, states) {
     return dataStructure;
 }
 
-// const prod = createJson(data, states);
-// const json = JSON.stringify(prod);
+const prod = createJson(data, states);
+const json = JSON.stringify(prod);
 
-// fs.writeFile('reproduction-rates-for-ui.json', json, (e) => {
-//     if(e) return console.log(e);
-//     console.log("Was able to write the file");
-// });
+fs.writeFile('../data/computed/reproduction-rate.json', json, (e) => {
+    if(e) return console.log(e);
+    console.log("Was able to write the file");
+});

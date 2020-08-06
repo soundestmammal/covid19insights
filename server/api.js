@@ -3,7 +3,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 
 const riskData = require('./data/risk-level-7-days.json');
-const reproductionRateData = require('./data/reproduction-rates-for-ui.json');
+const reproductionRateData = require('./data/computed/reproduction-rate.json');
 const contactTraceRateData = require('./data/contract-trace-percent-by-state.json');
 const positiveTestRateData = require('./data/positive-test-rates-for-ui.json');
 const dailyCaseData = require('./data/computed/dailyCaseData.json');
