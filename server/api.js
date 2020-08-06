@@ -6,13 +6,12 @@ const riskData = require('./data/risk-level-7-days.json');
 const reproductionRateData = require('./data/reproduction-rates-for-ui.json');
 const contactTraceRateData = require('./data/contract-trace-percent-by-state.json');
 const positiveTestRateData = require('./data/positive-test-rates-for-ui.json');
-const dailyCaseData = require('./data/dailyCaseData.json');
+const dailyCaseData = require('./data/computed/dailyCaseData.json');
 const dailyCaseDataMovingAverage = require('./data/daily-cases-moving-average.json');
 const dailyDeathData = require('./data/dailyDeathData.json');
 const dailyDeathDataMovingAverage = require('./data/daily-deaths-moving-average.json');
 const summaryData = require('./data/summary.json');
 
-require('./config/db');
 
 const app = express();
 
