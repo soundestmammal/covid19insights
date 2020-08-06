@@ -1,5 +1,5 @@
 const fs = require('fs');
-const dailyDeathData = require('../data/dailyDeathData.json');
+const dailyDeathData = require('../data/computed/dailyDeathData.json');
 
 function calcDailyDeathsMovingAverage(filtered) {
   const movingAverageDailyDeaths = [];
@@ -48,7 +48,7 @@ const response = createJson(dailyDeathData);
 
 const json = JSON.stringify(response);
 
-fs.writeFile('../data/daily-deaths-moving-average.json', json, (e) => {
+fs.writeFile('../data/computed/daily-deaths-moving-average.json', json, (e) => {
     if(e) return console.log(e);
     console.log("Was able to write the file");
 });

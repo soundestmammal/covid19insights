@@ -8,10 +8,9 @@ const contactTraceRateData = require('./data/contract-trace-percent-by-state.jso
 const positiveTestRateData = require('./data/positive-test-rates-for-ui.json');
 const dailyCaseData = require('./data/computed/dailyCaseData.json');
 const dailyCaseDataMovingAverage = require('./data/computed/daily-cases-moving-average.json');
-const dailyDeathData = require('./data/dailyDeathData.json');
-const dailyDeathDataMovingAverage = require('./data/daily-deaths-moving-average.json');
+const dailyDeathData = require('./data/computed/dailyDeathData.json');
+const dailyDeathDataMovingAverage = require('./data/computed/daily-deaths-moving-average.json');
 const summaryData = require('./data/summary.json');
-
 
 const app = express();
 
