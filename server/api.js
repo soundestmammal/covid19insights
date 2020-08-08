@@ -4,7 +4,7 @@ const morgan = require('morgan');
 
 const riskData = require('./data/risk-level-7-days.json');
 const reproductionRateData = require('./data/computed/reproduction-rate.json');
-const contactTraceRateData = require('./data/contract-trace-percent-by-state.json');
+const contactTraceRateData = require('./data/computed/contact-trace.json');
 const positiveTestRateData = require('./data/computed/positive-test-rate.json');
 const dailyCaseData = require('./data/computed/dailyCaseData.json');
 const dailyCaseDataMovingAverage = require('./data/computed/daily-cases-moving-average.json');
