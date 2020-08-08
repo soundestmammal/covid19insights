@@ -105,9 +105,9 @@
   border-radius: 8px;
 }
 
-.state-status-container p {
-  margin-top: 10px;
-  color: rgb(79,79,79);
+.state-status-container {
+  display: flex;
+  flex-direction: column;
 }
 
 .indicator-container {
