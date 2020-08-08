@@ -1,5 +1,7 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
+import moment from 'moment';
+import "../../App.css";
 
 const ContactTraceRate = (props) => {
     const stateData = props.data;
@@ -44,6 +46,13 @@ const ContactTraceRate = (props) => {
             tooltips: {
                 intersect: false,
                 mode: 'index',
+                callbacks: {
+                    title: function(tooltipItem, chart) {
+                        // Change the date format
+                        let date = tooltipItem[0].xLabel;
+                        return moment(date, 'YYYY MM DD').format('MMMM DD, YYYY');
+                    }
+                }
             },
             animation: {
                 duration: 1000
@@ -56,7 +65,7 @@ const ContactTraceRate = (props) => {
             <div className="chart-info">
                 <span className="info-title">Contact Trace Rate</span>
                 <span className="info-state">{props.state}</span>
-                <p classname="info-summary">Per best available data, {props.state} has ???? contact tracers. With an average of ??? new daily cases, we estimate {props.state} needs ???? contact tracing staff to trace all new cases in 24 hours, before too many other people are infected. This means that {props.state} is likely able to trace ???% of new COVID infections in 24 hours. When this level of tracing is coupled with widely available testing, COVID can be contained without resorting to lockdowns.</p>
+                <p className="info-summary">Per best available data, {props.state} has ???? contact tracers. With an average of ??? new daily cases, we estimate {props.state} needs ???? contact tracing staff to trace all new cases in 24 hours, before too many other people are infected. This means that {props.state} is likely able to trace ???% of new COVID infections in 24 hours. When this level of tracing is coupled with widely available testing, COVID can be contained without resorting to lockdowns.</p>
             </div>
         );
     }
@@ -64,13 +73,13 @@ const ContactTraceRate = (props) => {
     function renderFooter() {
         return(
             <div className="chart-footer">
-                <p>Last updated 7/10/2020. Experts recommend that at least 90% of contacts for each new case must be traced within 48 hours in order to contain COVID. Experts estimate that tracing each new case within 48 hours requires an average of 5 contact tracers per new case, as well as fast testing.</p>
+                <p>Last updated 8/7/2020. Experts recommend that at least 90% of contacts for each new case must be traced within 48 hours in order to contain COVID. Experts estimate that tracing each new case within 48 hours requires an average of 5 contact tracers per new case, as well as fast testing.</p>
             </div>
         )
     }
 
     return(
-        <div>
+        <div className="chart-wrapper">
             {renderInfo()}
             <div className="chart-height">
                 <Line

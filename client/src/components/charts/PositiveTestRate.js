@@ -1,5 +1,7 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
+import moment from 'moment';
+import "../../App.css";
 
 const PositiveTestRate = (props) => {
     const stateData = props.positiveTestRateData[props.state];
@@ -43,6 +45,13 @@ const PositiveTestRate = (props) => {
         tooltips: {
             intersect: false,
             mode: 'index',
+            callbacks: {
+                title: function(tooltipItem, chart) {
+                    // Change the date format
+                    let date = tooltipItem[0].xLabel;
+                    return moment(date, 'YYYY MM DD').format('MMMM DD, YYYY');
+                }
+            }
         },
         animation: {
             duration: 1000
@@ -66,7 +75,7 @@ const PositiveTestRate = (props) => {
             <div className="chart-info">
                 <span className="info-title">Positive Test Rate</span>
                 <span className="info-state">{props.state}</span>
-                <p classname="info-summary">{summary}</p>
+                <p className="info-summary">{summary}</p>
             </div>
         );
     }
@@ -74,13 +83,13 @@ const PositiveTestRate = (props) => {
     function renderFooter() {
         return(
             <div className="chart-footer">
-                <p>Last updated 7/04/2020. The World Health Organization recommends a positive test rate of below 10%. The most successful countries have rates less than 3%. Each data point represents the 7-day trailing average.</p>
+                <p>Last updated 8/7/2020. The World Health Organization recommends a positive test rate of below 10%. The most successful countries have rates less than 3%. Each data point represents the 7-day trailing average.</p>
             </div>
         )
     }
 
     return(
-        <div>
+        <div className="chart-wrapper">
             {renderInfo()}
             <div className="chart-height">
                 <Line

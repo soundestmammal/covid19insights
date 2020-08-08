@@ -1,5 +1,6 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
+import moment from 'moment';
 
 const DailyDeaths = (props) => {
     const barData = {
@@ -53,6 +54,13 @@ const DailyDeaths = (props) => {
             tooltips: {
                 intersect: false,
                 mode: 'index',
+                callbacks: {
+                    title: function(tooltipItem, chart) {
+                        // Change the date format
+                        let date = tooltipItem[0].xLabel;
+                        return moment(date, 'YYYY MM DD').format('MMMM DD, YYYY');
+                    }
+                }
             },
             animation: {
                 duration: 1000
@@ -72,13 +80,13 @@ const DailyDeaths = (props) => {
     function renderFooter() {
         return(
             <div className="chart-footer">
-                <p>Last updated 7/10/2020. Source: New York Times</p>
+                <p>Last updated 8/7/2020. Source: New York Times</p>
             </div>
         )
     }
 
     return(
-        <div>
+        <div className="chart-wrapper">
             {renderInfo()}
             <div className="chart-height">
                 <Bar
