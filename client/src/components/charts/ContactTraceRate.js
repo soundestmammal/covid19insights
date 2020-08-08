@@ -1,5 +1,6 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
+import "../../App.css";
 
 const ContactTraceRate = (props) => {
     const stateData = props.data;
@@ -56,7 +57,7 @@ const ContactTraceRate = (props) => {
             <div className="chart-info">
                 <span className="info-title">Contact Trace Rate</span>
                 <span className="info-state">{props.state}</span>
-                <p classname="info-summary">Per best available data, {props.state} has ???? contact tracers. With an average of ??? new daily cases, we estimate {props.state} needs ???? contact tracing staff to trace all new cases in 24 hours, before too many other people are infected. This means that {props.state} is likely able to trace ???% of new COVID infections in 24 hours. When this level of tracing is coupled with widely available testing, COVID can be contained without resorting to lockdowns.</p>
+                <p className="info-summary">Per best available data, {props.state} has ???? contact tracers. With an average of ??? new daily cases, we estimate {props.state} needs ???? contact tracing staff to trace all new cases in 24 hours, before too many other people are infected. This means that {props.state} is likely able to trace ???% of new COVID infections in 24 hours. When this level of tracing is coupled with widely available testing, COVID can be contained without resorting to lockdowns.</p>
             </div>
         );
     }
@@ -70,7 +71,7 @@ const ContactTraceRate = (props) => {
     }
 
     return(
-        <div>
+        <div className="chart-wrapper">
             {renderInfo()}
             <div className="chart-height">
                 <Line

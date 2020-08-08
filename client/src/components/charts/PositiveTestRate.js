@@ -1,5 +1,6 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
+import "../../App.css";
 
 const PositiveTestRate = (props) => {
     const stateData = props.positiveTestRateData[props.state];
@@ -66,7 +67,7 @@ const PositiveTestRate = (props) => {
             <div className="chart-info">
                 <span className="info-title">Positive Test Rate</span>
                 <span className="info-state">{props.state}</span>
-                <p classname="info-summary">{summary}</p>
+                <p className="info-summary">{summary}</p>
             </div>
         );
     }
@@ -80,7 +81,7 @@ const PositiveTestRate = (props) => {
     }
 
     return(
-        <div>
+        <div className="chart-wrapper">
             {renderInfo()}
             <div className="chart-height">
                 <Line

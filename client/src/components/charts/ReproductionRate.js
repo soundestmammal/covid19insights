@@ -70,7 +70,7 @@ const ReproductionRate = (props) => {
         )
     }
     return(
-        <div>
+        <div className="chart-wrapper">
             {renderInfo()}
             <div className="chart-height">
                 <Line
