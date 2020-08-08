@@ -1,13 +1,12 @@
 const fs = require('fs');
 const csvToJson = require('convert-csv-to-json');
-// const data = require('../data/positive-test-rate.csv');
-const data = require('./positive-total-data.json');
+const data = require('../data/raw-json/positive-test-rate.json');
 const states = require('../data/contract-trace-percent-by-state.json');
 const statesShort = require('../data/states.json');
 
 function csvToJsonHelper(){
-    let fileInput = '../data/';
-    let fileOutput = 'reproduction-rate.json';
+    let fileInput = '../data/raw/positive-test-rate.csv';
+    let fileOutput = '../data/raw-json/positive-test-rate.json';
     csvToJson.fieldDelimiter(',').generateJsonFileFromCsv(fileInput, fileOutput);
 }
 
@@ -167,10 +166,10 @@ function createJson(data, states) {
     return dataStructure;
 }
 
-// const prod = createJson(data, states);
-// const json = JSON.stringify(prod);
+const prod = createJson(data, states);
+const json = JSON.stringify(prod);
 
-// fs.writeFile('positive-test-rates-for-ui.json', json, (e) => {
-//     if(e) return console.log(e);
-//     console.log("Was able to write the file");
-// });
+fs.writeFile('../data/computed/positive-test-rate.json', json, (e) => {
+    if(e) return console.log(e);
+    console.log("Was able to write the file");
+});

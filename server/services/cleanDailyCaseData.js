@@ -1,5 +1,5 @@
 const fs = require('fs');
-const dailyCaseData = require('../data/state-level-time-series-cases-deaths.json');
+const data = require('../data/raw-json/nyt-us-states.json');
 const getStateNames = require('../data/contract-trace-percent-by-state.json');
 
 function cleanDailyCaseData(filtered) {
@@ -30,12 +30,12 @@ function cleanDailyCaseData(filtered) {
     return dailyCases;
 }
 
-function createJson(data, states) {
+function createJson(data) {
     // 1. Create a dataStructure object to be returned
     const dataStructure = {};
 
     // 2. Create an array of US State names
-    const stateNames = [...Object.keys(states)];
+    const stateNames = [...Object.keys(getStateNames)];
 
     // 3. Loop through each US State, apply data transformation and assign new data to dataStructure object
     for(let i = 0; i < stateNames.length; i++) {
@@ -47,11 +47,11 @@ function createJson(data, states) {
     return dataStructure;
 }
 
-const response = createJson(dailyCaseData, getStateNames);
+const response = createJson(data);
 
 const json = JSON.stringify(response);
 
-fs.writeFile('../data/dailyCaseData.json', json, (e) => {
+fs.writeFile('../data/computed/dailyCaseData.json', json, (e) => {
     if(e) return console.log(e);
     console.log("Was able to write the file");
 });
