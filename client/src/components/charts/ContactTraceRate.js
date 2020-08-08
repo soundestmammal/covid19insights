@@ -1,5 +1,6 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
+import moment from 'moment';
 import "../../App.css";
 
 const ContactTraceRate = (props) => {
@@ -45,6 +46,13 @@ const ContactTraceRate = (props) => {
             tooltips: {
                 intersect: false,
                 mode: 'index',
+                callbacks: {
+                    title: function(tooltipItem, chart) {
+                        // Change the date format
+                        let date = tooltipItem[0].xLabel;
+                        return moment(date, 'YYYY MM DD').format('MMMM DD, YYYY');
+                    }
+                }
             },
             animation: {
                 duration: 1000
@@ -65,7 +73,7 @@ const ContactTraceRate = (props) => {
     function renderFooter() {
         return(
             <div className="chart-footer">
-                <p>Last updated 7/10/2020. Experts recommend that at least 90% of contacts for each new case must be traced within 48 hours in order to contain COVID. Experts estimate that tracing each new case within 48 hours requires an average of 5 contact tracers per new case, as well as fast testing.</p>
+                <p>Last updated 8/7/2020. Experts recommend that at least 90% of contacts for each new case must be traced within 48 hours in order to contain COVID. Experts estimate that tracing each new case within 48 hours requires an average of 5 contact tracers per new case, as well as fast testing.</p>
             </div>
         )
     }

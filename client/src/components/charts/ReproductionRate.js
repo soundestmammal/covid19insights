@@ -1,5 +1,6 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
+import moment from 'moment';
 import "../../App.css";
 
 const ReproductionRate = (props) => {
@@ -44,6 +45,13 @@ const ReproductionRate = (props) => {
             tooltips: {
                 intersect: false,
                 mode: 'index',
+                callbacks: {
+                    title: function(tooltipItem, chart) {
+                        // Change the date format
+                        let date = tooltipItem[0].xLabel;
+                        return moment(date, 'YYYY MM DD').format('MMMM DD, YYYY');
+                    }
+                }
             },
             animation: {
                 duration: 1000
@@ -65,7 +73,7 @@ const ReproductionRate = (props) => {
         // Each data point represents the estimated daily reproduction rate. I present the most recent seven days of data as a dashed line, as data is often revised by states several days after reporting. The blue shadow above and below the line represent an 80% confidence interval.
         return(
             <div className="chart-footer">
-                <p>Last updated 7/04/2020. Source: Rt.live</p>
+                <p>Last updated 8/7/2020. Source: Rt.live</p>
             </div>
         )
     }
