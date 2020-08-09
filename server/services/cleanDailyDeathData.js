@@ -1,5 +1,5 @@
 const fs = require('fs');
-const dailyCaseData = require('../data/state-level-time-series-cases-deaths.json');
+const dailyCaseData = require('../data/raw-json/nyt-us-states.json');
 const getStateNames = require('../data/contract-trace-percent-by-state.json');
 
 function cleanDailyDeathData(filtered) {
@@ -49,7 +49,7 @@ const response = createJson(dailyCaseData, getStateNames);
 
 const json = JSON.stringify(response);
 
-fs.writeFile('../data/dailyDeathData.json', json, (e) => {
+fs.writeFile('../data/computed/dailyDeathData.json', json, (e) => {
   if(e) throw new Error;
   console.log("Successfully wrote the file to disk");
 })

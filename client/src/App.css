@@ -85,7 +85,7 @@
 /* Summary */
 
 .summary-container {
-  width: 50%;
+  max-width: 1000px;
   background-color: rgb(251,251,251);
   height: 450px;
   display: flex;
@@ -105,9 +105,9 @@
   border-radius: 8px;
 }
 
-.state-status-container p {
-  margin-top: 10px;
-  color: rgb(79,79,79);
+.state-status-container {
+  display: flex;
+  flex-direction: column;
 }
 
 .indicator-container {
@@ -659,8 +659,12 @@
 /* Charts */
 
 .charts-container {
-  width: 75%;
-  margin: 0 auto;
+  max-width: 1000px;
+  margin: 25px auto 0px;
+}
+
+.chart-wrapper {
+  margin-bottom: 5vh;
 }
 
 .chart-info {
@@ -688,7 +692,7 @@
   color: slategray;
   margin-top: 25px;
   font-size: 1rem;
-  width: 50%;
+  width: 75%;
 }
 
 .chart-footer {
@@ -725,7 +729,7 @@
 
   /* Chart */
   .charts-container {
-    width: 90%;
+    width: 80%;
     margin: 0 auto;
   }
 

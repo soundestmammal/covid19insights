@@ -1,3 +1,18 @@
+const fs = require('fs');
+const csvToJson = require('convert-csv-to-json');
+
+const data = require('../data/raw-json/contact-trace.json');
+const dailyCaseDataMA = require('../data/computed/daily-cases-moving-average.json');
+
+// Transform the data into JSON format
+function csvToJsonHelper(){
+    let fileInput = '../data/raw/contact-trace.csv';
+    let fileOutput = '../data/raw-json/contact-trace.json';
+    csvToJson.fieldDelimiter(',').generateJsonFileFromCsv(fileInput, fileOutput);
+}
+
+// csvToJsonHelper();
+
 /**
  * Returns an array of processed data.
  * 
@@ -8,43 +23,7 @@
  * @returns {Array}
  */
 
-module.exports = function(contactTraceData, usStateData){
-    function calculateDailyCases(data, state) {
-
-        // Filter the data so it is only data from one state
-        const filtered = data.filter((dat) => dat.state === state);
-
-        // Atomic data refers to an individual data point (x,y)
-        function createAtomicData({date, cases}) {
-            return {
-                "x": date,
-                "y": cases
-            }
-        }
-
-        // Array of cumulative cases by day
-        const caseData = [];
-
-        for(let i = 0; i < filtered.length; i++) {
-            let atomicData = createAtomicData(filtered[i]);
-            caseData.push(atomicData);
-        }
-    
-        const dailyCases = [];
-        for(let i = 0; i < caseData.length; i++) {
-          let tempObject = {};
-          if(i === 0) {
-            tempObject["x"] = caseData[i]["x"];
-            tempObject["y"] = parseFloat(caseData[i]["y"]);
-            dailyCases.push(tempObject);
-          } else {
-            tempObject["x"] = caseData[i]["x"];
-            tempObject["y"] = caseData[i]["y"]-caseData[i-1]["y"];
-            dailyCases.push(tempObject);
-          }
-        }
-        return dailyCases;
-    }
+ function calculate(contactTraceData){
 
     function calcPercentTraced(cases, tracers) {
         let dailyTracingCapacity = tracers/5;
@@ -61,8 +40,9 @@ module.exports = function(contactTraceData, usStateData){
         if(currentState === "District of Columbia") continue;
         let tempArray = [];
         // X is data
-        const dailyCases = calculateDailyCases(usStateData, currentState);
+        const dailyCases = dailyCaseDataMA[currentState];
         for(let j = 0; j < dailyCases.length; j++) {
+            if(j < 6) continue;
             let dataPoint = {};
             dataPoint["x"] = dailyCases[j].x;
             dataPoint["y"] = calcPercentTraced(dailyCases[j].y, contactTraceData[i]["#ofContactTracers"]);
@@ -73,3 +53,12 @@ module.exports = function(contactTraceData, usStateData){
     }
     return dataStructure;
 }
+
+const prod = calculate(data);
+
+const json = JSON.stringify(prod);
+
+fs.writeFile('../data/computed/contact-trace.json', json, (e) => {
+    if(e) return console.log(e);
+    console.log("Was able to write the file");
+});
