@@ -24,5 +24,3 @@ c19insights uses data from a variety of sources to show trends:
 * [rt.live] - Latest estimates of Rt.
 * [Covid Tracking Project] - To calculate the positivity rate.
 * [Test and Trace] - To measure the capabilities of contact tracing.
-
-All data are U.S. State-level time-series data*
