@@ -20,7 +20,7 @@ c19insights uses a number of technologies to run properly:
 
 c19insights uses data from a variety of sources to show trends:
 
-* [The New York Times] - To display Daily Cases & Daily Deaths.
-* [rt.live] - Latest estimates of Rt.
-* [Covid Tracking Project] - To calculate the positivity rate.
-* [Test and Trace] - To measure the capabilities of contact tracing.
+* [The New York Times](https://www.nytimes.com/) - To display Daily Cases & Daily Deaths.
+* [rt.live](https://rt.live/) - Latest estimates of Rt.
+* [COVID Tracking Project](https://covidtracking.com/data) - To calculate the positivity rate.
+* [Test and Trace](https://testandtrace.com/) - To measure the capabilities of contact tracing.
