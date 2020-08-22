@@ -7,6 +7,7 @@ import Hero from './components/Hero';
 import Indicators from './components/Indicators';
 import USMap from './components/USMap';
 import Dashboard from './components/Dashboard';
+import About from './components/About';
 
 class AppRouter extends Component {
 
@@ -73,6 +74,9 @@ class AppRouter extends Component {
                     </Route>
                     <Route path="/detail">
                         <Dashboard style={{marginTop: '56px', height: '380px',}} state={this.state.currentState} data={this.state} />
+                    </Route>
+                    <Route path="/about">
+                        <About />
                     </Route>
                 </Router>
             </div>

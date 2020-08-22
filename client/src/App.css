@@ -712,6 +712,19 @@
   height: 40vh;
 }
 
+/* US Map Home Screen */
+.us-map-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* About Container */
+.about-content-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  margin-top: 75px;
+}
+
 /* iPhone 6/7/8/X */
 @media (max-width: 375px) {
   /* Summary */
@@ -758,10 +771,11 @@
   .chart-height {
     height: 70vh;
   }
-}
 
-/* US Map Home Screen */
-.us-map-container {
-  max-width: 1200px;
-  margin: 0 auto;
+  .about-content-container {
+    max-width: 1000px;
+    margin: 0 15px;
+    margin-top: 75px;
+  }
+
 }
