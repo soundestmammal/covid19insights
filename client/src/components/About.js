@@ -1,11 +1,12 @@
 import React from 'react';
+import "../App.css";
 
 const About = () => {
     return(
-        <div>
+        <div className="about-content-container">
             <section>
                 <h2>COVID-19 Insights</h2>
-                <p>COVID Insights is a data visualization dashboard that provides analysis on the ongoing pandemic in the United States. The key motivation is to display the data in a clear manner to help the public monitor COVID-19.</p>
+                <p>COVID-19 Insights is a data visualization dashboard that provides analysis on the ongoing pandemic in the United States. The key motivation is to display the data in a clear manner to help the public monitor COVID-19.</p>
             </section>
             <section>
                 <h2>Data Sources</h2>
