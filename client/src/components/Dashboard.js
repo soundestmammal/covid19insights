@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import '../App.css';
 
 // Components
-import Searchbar from './Searchbar';
 import Summary from './Summary';
 import PositiveTestRate from './charts/PositiveTestRate';
 import DailyCases from './charts/DailyCases';
@@ -26,7 +25,7 @@ class Dashboard extends Component {
     // This actually returns the div...
     riskLevelColorBackground = (riskLevel) => {
         let thisColor = this.getRiskLevelColor(riskLevel);
-        return <div style={{height: '380px', backgroundColor: `${thisColor}` , zIndex: '1'}}></div>
+        return <div style={{height: '440px', backgroundColor: `${thisColor}` , zIndex: '1'}}></div>
     }
 
     getContactTraceRate = (state) => {
@@ -42,9 +41,6 @@ class Dashboard extends Component {
         const { state } = this.props;
         return(
             <div>
-                <div className="dashboard-risk-level-background">
-                    <Searchbar />
-                </div>
                 {this.riskLevelColorBackground(summary[state].riskLevel)}
                 <Summary state={state} data={summary[state]} />
                 <div className="charts-container">

@@ -1,19 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
 
-const Navigation = () => {
+import openNewTab from './util/openNewTab';
+
+const NavBar = () => {
     return (
-        <Navbar bg="light" fixed='top'>
-            <Navbar.Brand className="mr-auto"><Link to="/">COVID INSIGHTS</Link></Navbar.Brand>
-            <Nav>
-                <Nav.Link><Link to="/">Map</Link></Nav.Link>
-                <Nav.Link><Link to="/about">About</Link></Nav.Link>
-                <Nav.Link><Link to="/resources">Resources</Link></Nav.Link>
-            </Nav>
-        </Navbar>
+        <div className="nav-bar">
+            <div className="nav-bar-inner">
+                <div className="nav-bar-left">
+                    <Link to="/" className="nav-bar-title">COVID-19 Insights</Link>
+                </div>
+                <div className="nav-bar-right">
+                    <Link to="/" className="nav-bar-link">Map</Link>
+                    <Link to="/about" className="nav-bar-link">About</Link>
+                    <div className="nav-bar-link" onClick={() => openNewTab("https://www.github.com/soundestmammal/covid19insights")}>Code</div>
+                </div>
+            </div>
+        </div>
     );
 }
 
-export default Navigation;
+export default NavBar;
