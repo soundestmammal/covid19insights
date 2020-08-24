@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import '../App.css';
 
 // Components
-import Searchbar from './Searchbar';
 import Summary from './Summary';
 import PositiveTestRate from './charts/PositiveTestRate';
 import DailyCases from './charts/DailyCases';
@@ -43,7 +42,7 @@ class Dashboard extends Component {
         return(
             <div>
                 <div className="dashboard-risk-level-background">
-                    <Searchbar />
+                    
                 </div>
                 {this.riskLevelColorBackground(summary[state].riskLevel)}
                 <Summary state={state} data={summary[state]} />
