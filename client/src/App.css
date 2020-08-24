@@ -11,6 +11,8 @@
      --fw-reg: 300;
      --fw-bold: 900;
 
+     --clr-dark: #24292e;
+     --clr-nav-bar-hover: rgba(255, 255, 255, 0.8);
      --clr-low: rgb(0, 212, 116);
      --clr-medium: rgb(255, 201, 0);
      --clr-high: rgb(255, 150, 0);
@@ -778,4 +780,61 @@
     margin-top: 75px;
   }
 
+}
+
+/* NavBar */
+
+.nav-bar {
+  height: 60px;
+  background-color: var(--clr-dark);
+  width: 100%;
+  position: fixed;
+  z-index: 999;
+}
+
+.nav-bar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  color: white;
+  align-items: center;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.nav-bar-left {
+  font-size: 2em;
+  letter-spacing: 0.02em;
+}
+
+.nav-bar-right {
+  width: 200px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 1.25em;
+  box-sizing: border-box;
+}
+
+.nav-bar-link {
+  color: white;
+  border-bottom: 3px solid transparent;
+}
+
+.nav-bar-link:hover {
+  text-decoration: none;
+  border-bottom: 3px solid white;
+  color: var(--clr-nav-bar-hover);
+  cursor: pointer;
+}
+
+.nav-bar-title {
+  color: white;
+  font-weight: bolder;
+}
+
+.nav-bar-title:hover {
+  text-decoration: none;
+  color: var(--clr-nav-bar-hover);
 }
