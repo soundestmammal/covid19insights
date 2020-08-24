@@ -73,7 +73,7 @@ class AppRouter extends Component {
                         <USMap nav={this.navToState} data={this.state.summary} /> 
                     </Route>
                     <Route path="/detail">
-                        <Dashboard style={{marginTop: '56px', height: '380px',}} state={this.state.currentState} data={this.state} />
+                        <Dashboard state={this.state.currentState} data={this.state} />
                     </Route>
                     <Route path="/about">
                         <About />

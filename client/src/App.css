@@ -74,7 +74,6 @@
 
 /* Dashboard Styles */
 .dashboard-risk-level-background {
-  margin-top: 56px;
   height: 100px;
   background-color: rgb(242,242,242);
   display: block;
@@ -85,7 +84,6 @@
 }
 
 /* Summary */
-
 .summary-container {
   max-width: 1000px;
   background-color: rgb(251,251,251);
@@ -722,9 +720,9 @@
 
 /* About Container */
 .about-content-container {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
-  margin-top: 75px;
+  padding-top: 100px;
 }
 
 /* iPhone 6/7/8/X */
