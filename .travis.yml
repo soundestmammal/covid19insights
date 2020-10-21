@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+# Build images to be tested
+before_install:
+  - docker build -t soundestmammal/c19insights-client-test -f ./client/Dockerfile.dev ./client
+  - docker build -t soundestmammal/c19insights-server-test -f ./server/Dockerfile.dev ./server
+
+# Run tests here
+script:
+  - docker run -e CI=true soundestmammal/c19insights-client-test npm test
+  - docker run -e CI=true soundestmammal/c19insights-server-test npm test
+
+after_success:
+  - docker build -t soundestmammal/c19insights-client ./client
+  - docker build -t soundestmammal/c19insights-server ./server
+  - docker build -t soundestmammal/c19insights-nginx ./nginx
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push soundestmammal/c19insights-client
+  - docker push soundestmammal/c19insights-server
+  - docker push soundestmammal/c19insights-nginx
