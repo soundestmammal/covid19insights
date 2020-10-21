@@ -32,30 +32,30 @@ class AppRouter extends Component {
   // Fetch Data for the application
   // This is a temporary solution. This will be one fetch, one setState in the future.
   fetchData = async () => {
-    const summary = await axios.get('http://localhost:3050/api/v1/summary');
+    const summary = await axios.get('/api/v1/summary');
     const dailyCases = await axios.get(
-      'http://localhost:3050/api/v1/daily_cases'
+      '/api/v1/daily_cases'
     );
     const dailyCasesMA = await axios.get(
-      'http://localhost:3050/api/v1/daily_cases_moving_average'
+      '/api/v1/daily_cases_moving_average'
     );
     const dailyDeaths = await axios.get(
-      'http://localhost:3050/api/v1/daily_deaths'
+      '/api/v1/daily_deaths'
     );
     const dailyDeathsMA = await axios.get(
-      'http://localhost:3050/api/v1/daily_deaths_moving_average'
+      '/api/v1/daily_deaths_moving_average'
     );
     const positiveTestRate = await axios.get(
-      'http://localhost:3050/api/v1/positive_test_rate'
+      '/api/v1/positive_test_rate'
     );
     const reproductionRate = await axios.get(
-      'http://localhost:3050/api/v1/reproduction_rate'
+      '/api/v1/reproduction_rate'
     );
     const contactTraceRate = await axios.get(
-      'http://localhost:3050/api/v1/contact_trace_rate'
+      '/api/v1/contact_trace_rate'
     );
     const riskLevel = await axios.get(
-      'http://localhost:3050/api/v1/risk_level'
+      '/api/v1/risk_level'
     );
 
     this.setState({ summary: summary.data });
