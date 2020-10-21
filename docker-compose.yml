@@ -16,6 +16,9 @@ services:
       - /app/node_modules
       - ./client:/app
   nginx:
+    depends_on:
+      - api
+      - client
     restart: always
     build:
       dockerfile: Dockerfile.dev
