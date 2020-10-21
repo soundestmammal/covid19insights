@@ -18,3 +18,15 @@ after_success:
   - docker push soundestmammal/c19insights-client
   - docker push soundestmammal/c19insights-server
   - docker push soundestmammal/c19insights-nginx
+
+deploy:
+  provider: elasticbeanstalk
+  region: us-east-2
+  app: c19insights
+  env: C19insights-env
+  bucket_name: elasticbeanstalk-us-east-2-670541471230
+  bucket_path: docker-c19insights
+  on:
+    branch: containerize
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
