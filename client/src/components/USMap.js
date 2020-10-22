@@ -5,7 +5,7 @@ import states from '../json/states.json';
 class USMap extends Component {
 
     getRiskLevelColor = (state) => {
-        let riskLevel = this.props.data[state].riskLevel;
+        let riskLevel = this.props.data[state]['summary'].risk_level;
         const riskLevelColorMap = {
             low: "rgb(0, 212, 116)",
             medium: "rgb(255, 201, 0)",
