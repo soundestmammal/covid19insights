@@ -7,3 +7,7 @@ node_modules/
 
 /config
 keys.js
+
+.env
+/logs
+*/__pycache__/*

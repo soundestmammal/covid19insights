@@ -1,0 +1,3 @@
+FROM apache/airflow
+COPY ./scripts/entrypoint.sh .
+ENTRYPOINT [ "sh", "./entrypoint.sh" ]
