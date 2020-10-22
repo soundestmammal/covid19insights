@@ -37,18 +37,18 @@ class Dashboard extends Component {
     }
 
     render(){
-        const { reproductionRate, positiveTestRate, contactTraceRate, dailyCases, dailyCasesMA, dailyDeaths, dailyDeathsMA, summary } = this.props.data;
+        const { reproduction_rate, positive_test_rate, contact_trace_rate, daily_cases, daily_cases_moving_average, daily_deaths, daily_deaths_moving_average, summary } = this.props.data;
         const { state } = this.props;
         return(
             <div>
-                {this.riskLevelColorBackground(summary[state].riskLevel)}
-                <Summary state={state} data={summary[state]} />
+                {this.riskLevelColorBackground(summary.risk_level)}
+                <Summary state={state} data={summary} />
                 <div className="charts-container">
-                    <ReproductionRate state={state} data={reproductionRate[state]} summary={summary[state]} />
-                    <PositiveTestRate state={state} positiveTestRateData={positiveTestRate} summary={summary[state]} />
-                    <ContactTraceRate state={state} data={contactTraceRate[state]} summary={summary[state]} />
-                    <DailyCases state={state} barData={dailyCases[state]} movingData={dailyCasesMA[state]} />
-                    <DailyDeaths state={state} barData={dailyDeaths[state]} movingData={dailyDeathsMA[state]} />
+                    <ReproductionRate state={state} data={reproduction_rate} summary={summary} />
+                    <PositiveTestRate state={state} data={positive_test_rate} summary={summary} />
+                    <ContactTraceRate state={state} data={contact_trace_rate} summary={summary} />
+                    <DailyCases state={state} barData={daily_cases} movingData={daily_cases_moving_average} />
+                    <DailyDeaths state={state} barData={daily_deaths} movingData={daily_deaths_moving_average} />
                 </div>
             </div>
         );
