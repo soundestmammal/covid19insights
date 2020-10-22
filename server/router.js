@@ -1,4 +1,5 @@
 const express = require('express');
+const axios = require('axios');
 const riskData = require('./data/risk-level-7-days.json');
 const reproductionRateData = require('./data/computed/reproduction-rate.json');
 const contactTraceRateData = require('./data/computed/contact-trace.json');
@@ -49,6 +50,11 @@ router.get('/v1/daily_deaths_moving_average', (req, res) => {
 
 router.get('/v1/summary', (req, res) => {
   res.json(summaryData);
+});
+
+router.get('/v1/data', async (req, res) => {
+  const response = await axios.get('https://c19-airflow-s3.s3.us-east-2.amazonaws.com/join.json');
+  res.json(response.data);
 });
 
 module.exports = router;

@@ -16,14 +16,6 @@ class AppRouter extends Component {
     this.state = {
       currentState: '',
       data: ''
-      // summary: '',
-      // dailyCases: '',
-      // dailyCasesMA: '',
-      // dailyDeaths: '',
-      // dailyDeathsMA: '',
-      // reproductionRate: '',
-      // positiveTestRate: '',
-      // contactTraceRate: '',
     };
   }
 
@@ -31,45 +23,9 @@ class AppRouter extends Component {
     this.setState({ currentState: state });
   };
 
-  // Fetch Data for the application
-  // This is a temporary solution. This will be one fetch, one setState in the future.
-  fetchData = () => {
-    // const summary = await axios.get('/api/v1/summary');
-    // const dailyCases = await axios.get(
-    //   '/api/v1/daily_cases'
-    // );
-    // const dailyCasesMA = await axios.get(
-    //   '/api/v1/daily_cases_moving_average'
-    // );
-    // const dailyDeaths = await axios.get(
-    //   '/api/v1/daily_deaths'
-    // );
-    // const dailyDeathsMA = await axios.get(
-    //   '/api/v1/daily_deaths_moving_average'
-    // );
-    // const positiveTestRate = await axios.get(
-    //   '/api/v1/positive_test_rate'
-    // );
-    // const reproductionRate = await axios.get(
-    //   '/api/v1/reproduction_rate'
-    // );
-    // const contactTraceRate = await axios.get(
-    //   '/api/v1/contact_trace_rate'
-    // );
-    // const riskLevel = await axios.get(
-    //   '/api/v1/risk_level'
-    // );
-
-    // this.setState({ summary: summary.data });
-    // this.setState({ dailyCases: dailyCases.data });
-    // this.setState({ dailyCasesMA: dailyCasesMA.data });
-    // this.setState({ dailyDeaths: dailyDeaths.data });
-    // this.setState({ dailyDeathsMA: dailyDeathsMA.data });
-    // this.setState({ positiveTestRate: positiveTestRate.data });
-    // this.setState({ reproductionRate: reproductionRate.data });
-    // this.setState({ contactTraceRate: contactTraceRate.data });
-    // this.setState({ riskLevel: riskLevel.data });
-    this.setState({ data: data });
+  fetchData = async () => {
+    const response = await axios.get('/api/v1/data');
+    this.setState({ data: response.data });
   };
 
   componentDidMount() {
