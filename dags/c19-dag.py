@@ -206,5 +206,70 @@ cases_7day = PythonOperator(
     dag=dag
 )
 
+
+def deaths_7day_task():
+    def deaths_7day_moving_average():
+        # Load in the json data
+        URL = "https://c19-airflow-2020.s3.us-east-2.amazonaws.com/daily_deaths.json"
+        r = requests.get(url=URL)
+        data = r.text
+        dict_data = json.loads(data)
+
+        # Create a Data structure to return
+        data_structure = {}
+
+        # for each item in json data
+        for us_state in state_names:
+
+            # loop through the list and find the moving average for day i
+            current = dict_data[us_state]
+            current_state_7day = []
+
+            # if is is between 0 and 6, then I need to divide by less than 7 days
+            for i in range(len(current)):
+                data_point = {}
+                mean = 0
+                sum = 0
+                if i == 0:
+                    sum = current[i]['y']
+                    mean = sum
+                elif i < 6:
+                    # do something
+                    for x in range(0, i):
+                        sum = sum + current[x]['y']
+                    mean = sum / i+1
+                else:
+                    for x in range(i - 6, i+1):
+                        sum = sum + current[x]['y']
+                    mean = sum / 7
+
+                data_point['x'] = current[i]['x']
+                data_point['y'] = round(mean)
+
+                current_state_7day.append(data_point)
+
+            data_structure[us_state] = current_state_7day
+
+        return data_structure
+
+    deaths_dict = deaths_7day_moving_average()
+    deaths_json_s3 = json.dumps(deaths_dict)
+
+    s3_hook = S3Hook(aws_conn_id="s3_connection")
+    s3_hook.load_string(
+        string_data=deaths_json_s3,
+        key="daily_deaths_moving_average.json",
+        bucket_name="c19-airflow-2020",
+        replace=True
+    )
+
+
+deaths_7day = PythonOperator(
+    task_id="deaths_7day",
+    python_callable=deaths_7day_task,
+    dag=dag
+)
+
 create_s3_bucket >> nyt_data
 nyt_data >> cases_7day
+nyt_data >> deaths_7day
