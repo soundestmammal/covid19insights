@@ -143,4 +143,68 @@ nyt_data = PythonOperator(
     dag=dag,
 )
 
+
+def cases_7day_task():
+    def cases_7day_moving_average():
+        # Load in the json data
+        URL = "https://c19-airflow-2020.s3.us-east-2.amazonaws.com/nyt-daily_cases.json"
+        r = requests.get(url=URL)
+        data = r.text
+        dict_data = json.loads(data)
+
+        # Create a Data structure to return
+        data_structure = {}
+
+        for us_state in state_names:
+
+            # loop through the list and find the moving average for day i
+            current = dict_data[us_state]
+            current_state_7day = []
+
+            # if day is between 0 and 6, then I need to divide by less than 7 days
+            for i in range(len(current)):
+                data_point = {}
+                mean = 0
+                sum = 0
+                if i == 0:
+                    sum = current[i]['y']
+                    mean = sum
+                elif i < 6:
+                    # do something
+                    for x in range(0, i):
+                        sum = sum + current[x]['y']
+                    mean = sum / i+1
+                else:
+                    for x in range(i - 6, i+1):
+                        sum = sum + current[x]['y']
+                    mean = sum / 7
+
+                data_point['x'] = current[i]['x']
+                data_point['y'] = round(mean)
+
+                current_state_7day.append(data_point)
+
+            data_structure[us_state] = current_state_7day
+
+        return data_structure
+
+    cases_dict = cases_7day_moving_average()
+    cases_json_s3 = json.dumps(cases_dict)
+
+    s3_hook = S3Hook(aws_conn_id="s3_connection")
+    s3_hook.load_string(
+        string_data=cases_json_s3,
+        key="daily_cases_moving_average.json",
+        bucket_name="c19-airflow-2020",
+        replace=True
+    )
+
+
+cases_7day = PythonOperator(
+    task_id="cases_7day",
+    python_callable=cases_7day_task,
+    dag=dag
+)
+
 create_s3_bucket >> nyt_data
+nyt_data >> cases_7day
