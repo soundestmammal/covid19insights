@@ -45,4 +45,4 @@ workflows:
             - upload_images
           filters:
             branches:
-              only: containerize
+              only: master
