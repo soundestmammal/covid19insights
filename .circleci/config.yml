@@ -18,7 +18,7 @@ jobs:
           command: |
             docker build -t soundestmammal/c19insights-client ./client
             docker build -t soundestmammal/c19insights-server ./server
-            docker build -t soundestmammal/c19inights-nginx ./nginx
+            docker build -t soundestmammal/c19insights-nginx ./nginx
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
             docker push soundestmammal/c19insights-client
             docker push soundestmammal/c19insights-server
