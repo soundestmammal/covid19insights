@@ -134,7 +134,7 @@ const Summary = (props) => {
                 </div>
             </div>
             <div className="last-updated">
-                <span>{"Updated October 21, 2020"}</span>
+                <span>{"Updated October 26, 2020"}</span>
             </div>
         </div>
     )
