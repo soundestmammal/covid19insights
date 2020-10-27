@@ -35,7 +35,7 @@ workflows:
   version: 2
   COVID19_WORKFLOW:
     jobs:
-      - text_client
+      - test_client
       - upload_images:
           requires:
             - test_client
