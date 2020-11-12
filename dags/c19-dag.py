@@ -364,7 +364,92 @@ rt_data = PythonOperator(
     dag=dag,
 )
 
+
+def contact_trace_rate():
+    def calc_contact_trace_rate():
+        # 1. Fetch the remote resource for the contact trace rate
+        TEST_AND_TRACE_URL = "https://c19-airflow-s3.s3.us-east-2.amazonaws.com/testandtrace.csv"
+        df = pd.read_csv(TEST_AND_TRACE_URL)
+        df = df.iloc[:, 0:5]
+
+        df = df[df.State != 'District of Columbia']
+        df = df.rename({'# of Contact Tracers': 'contact_tracers'}, axis=1)
+
+        # 2. Convert this remote resource to json
+        json_data = df.reset_index().to_json(orient="records")
+
+        contact_trace_data = json.loads(json_data)
+
+        # I need to create a dictionary of state->tracers
+        state_tracers_dict = {}
+
+        for item in contact_trace_data:
+            current_state = item['State']
+            state_tracers_dict[current_state] = item['contact_tracers']
+
+        # 3. Fetch the daily case moving average data from s3
+        S3_BUCKET_URL = "https://c19-airflow-s3.s3.us-east-2.amazonaws.com/nyt-7day-cases.json"
+        r = requests.get(S3_BUCKET_URL)
+        data = r.text
+
+        data_dict = json.loads(data)
+
+        us_states = list(data_dict.keys())
+
+        data_structure = {}
+        for us_state in us_states:
+            list_of_calculations = []
+            current_state_data = data_dict[us_state]
+            iterator = next(
+                item for item in contact_trace_data if item["State"] == us_state)
+            print('THIS IS THE ITERATOR', iterator)
+            contact_tracers = iterator['contact_tracers']
+            tracing_capacity = contact_tracers/5
+
+            for day in current_state_data:
+
+                data_point = {}
+
+                data_point['x'] = day['x']
+
+                # contact trace rate = number of cases on day i / number of contact tracers/5
+                if day['y'] == 0:
+                    ctr = 1
+                else:
+                    ctr = tracing_capacity / day['y']
+
+                if ctr > 1:
+                    ctr = 1
+
+                day_contact_trace_rate = round(ctr, 2)
+
+                data_point['y'] = day_contact_trace_rate
+
+                list_of_calculations.append(data_point)
+
+            data_structure[us_state] = list_of_calculations
+
+        return data_structure
+
+    output = calc_contact_trace_rate()
+
+    s3_contact_trace_rate = json.dumps(output)
+    s3_hook = S3Hook(aws_conn_id="s3_connection")
+    s3_hook.load_string(
+        string_data=s3_contact_trace_rate,
+        key="contact_trace_rate-test.json",
+        bucket_name="c19-airflow-s3",
+        replace=True
+    )
+
+
+contact_trace_rate = PythonOperator(
+    task_id="contact_trace_rate",
+    python_callable=contact_trace_rate,
+    dag=dag,
+)
+
 create_s3_bucket >> nyt_data
 create_s3_bucket >> rt_data
-nyt_data >> cases_7day
+nyt_data >> cases_7day >> contact_trace_rate
 nyt_data >> deaths_7day
