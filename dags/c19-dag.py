@@ -24,6 +24,25 @@ state_names = [
     'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
 ]
 
+# A mapping of Abbreviation -> Full length for each US State
+state_name_map = {
+    'ME': 'Maine', 'NH': 'New Hampshire', 'VT': 'Vermont',
+    'MA': 'Massachusetts', 'RI': 'Rhode Island', 'CT': 'Connecticut',
+    'NY': 'New York', 'NJ': 'New Jersey', 'PA': 'Pennsylvania',
+    'DE': 'Delaware', 'MD': 'Maryland', 'VA': 'Virginia',
+    'NC': 'North Carolina', 'SC': 'South Carolina', 'GA': 'Georgia',
+    'FL': 'Florida', 'KY': 'Kentucky', 'WV': 'West Virginia',
+    'OH': 'Ohio', 'IN': 'Indiana', 'MI': 'Michigan', 'AL': 'Alabama',
+    'TN': 'Tennessee', 'IL': 'Illinois', 'WI': 'Wisconsin', 'MN': 'Minnesota',
+    'MS': 'Mississippi', 'IA': 'Iowa', 'MO': 'Missouri', 'AR': 'Arkansas',
+    'LA': 'Louisiana', 'ND': 'North Dakota', 'SD': 'South Dakota',
+    'NE': 'Nebraska', 'KS': 'Kansas', 'OK': 'Oklahoma', 'TX': 'Texas',
+    'NM': 'New Mexico', 'CO': 'Colorado', 'WY': 'Wyoming', 'MT': 'Montana',
+    'ID': 'Idaho', 'UT': 'Utah', 'AZ': 'Arizona', 'WA': 'Washington',
+    'OR': 'Oregon', 'NV': 'Nevada', 'CA': 'California', 'AK': 'Alaska',
+    'HI': 'Hawaii'
+}
+
 default_args = {
     'owner': 'c19insights',
     'depends_on_past': False,
@@ -270,6 +289,82 @@ deaths_7day = PythonOperator(
     dag=dag
 )
 
+
+def process_rt_data():
+
+    def get_rt_data():
+        RT_LINK = "https://d14wlfuexuxgcm.cloudfront.net/covid/rt.csv"
+        df = pd.read_csv(RT_LINK)
+        df_trim = df[['date', 'region', 'mean', 'lower_80', 'upper_80']]
+        df_trim = df_trim[df_trim.region != 'DC']
+        num_null_values = df_trim.isnull().sum()
+        df_trim = df_trim.rename({'region': 'state'}, axis=1)
+        df_trim = df_trim.replace({'state': state_name_map})
+        df_trim = df_trim.round(2)
+
+        json_data = df_trim.reset_index().to_json(orient="records")
+
+        return json_data
+
+    # state_data is an array of objects
+    def process_us_state_rt(state_data):
+        return_me = []
+        for i in range(len(state_data)):
+            data_point = {}
+            data_point['x'] = state_data[i]['date']
+            data_point['y'] = state_data[i]['mean']
+            return_me.append(data_point)
+        return return_me
+
+    def create_rt_ui_data_structure(rt_data):
+
+        # Create a Data Structure Object to be returned at the end
+        data_structure = {}
+
+        # Loop through each state,
+        #    Apply data transformation
+        #    And assign data to DS object
+
+        for us_state in state_names:
+            # For the current US State
+            # 1. Create a list of data objects where state === us_state
+            print(rt_data[0].keys())
+            raw_data_us_state = []
+            for item in rt_data:
+                if item.get('state') == us_state:
+                    raw_data_us_state.append(item)
+
+            # 2. Call the process_us_state_rt
+            processed_data = process_us_state_rt(raw_data_us_state)
+
+            # 3. Assign the data to current US State "key"
+            #  in the data structure
+            data_structure[us_state] = processed_data
+
+        return data_structure
+
+    rt_data = get_rt_data()
+    rt_data = json.loads(rt_data)
+
+    output_data = create_rt_ui_data_structure(rt_data)
+    upload = json.dumps(output_data)
+
+    s3_hook = S3Hook(aws_conn_id="s3_connection")
+    s3_hook.load_string(
+        string_data=upload,
+        key="reproduction_rate.json",
+        bucket_name="c19-airflow-2020",
+        replace=True,
+    )
+
+
+rt_data = PythonOperator(
+    task_id="rt_data",
+    python_callable=process_rt_data,
+    dag=dag,
+)
+
 create_s3_bucket >> nyt_data
+create_s3_bucket >> rt_data
 nyt_data >> cases_7day
 nyt_data >> deaths_7day
