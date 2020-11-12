@@ -1,0 +1,48 @@
+version: 2
+jobs:
+  test_client:
+    machine:
+      image: ubuntu-2004:202010-01
+    steps:
+      - checkout
+      - run:
+          command: |
+            docker build -t soundestmammal/c19insights-client-test -f ./client/Dockerfile.dev ./client
+            docker run -e CI=true soundestmammal/c19insights-client-test npm test
+  upload_images:
+    machine:
+      image: ubuntu-2004:202010-01
+    steps:
+      - checkout
+      - run:
+          command: |
+            docker build -t soundestmammal/c19insights-client ./client
+            docker build -t soundestmammal/c19insights-server ./server
+            docker build -t soundestmammal/c19insights-nginx ./nginx
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+            docker push soundestmammal/c19insights-client
+            docker push soundestmammal/c19insights-server
+            docker push soundestmammal/c19insights-nginx
+  deploy:
+    machine:
+      image: ubuntu-2004:202010-01
+    steps:
+      - checkout
+      - run:
+          command: bash ./scripts/deploy.sh
+
+workflows:
+  version: 2
+  COVID19_Workflow:
+    jobs:
+      - test_client
+      - upload_images:
+          requires:
+            - test_client
+      - deploy:
+          requires:
+            - test_client
+            - upload_images
+          filters:
+            branches:
+              only: master

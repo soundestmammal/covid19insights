@@ -1,0 +1,33 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "client",
+      "image": "soundestmammal/c19insights-client",
+      "hostname": "client",
+      "essential": false,
+      "memory": 256
+    },
+    {
+      "name": "server",
+      "image": "soundestmammal/c19insights-server",
+      "hostname": "api",
+      "essential": false,
+      "memory": 256
+    },
+    {
+      "name": "nginx",
+      "image": "soundestmammal/c19insights-nginx",
+      "hostname": "nginx",
+      "essential": true,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 80
+        }
+      ],
+      "links": ["client", "server"],
+      "memory": 256
+    }
+  ]
+}

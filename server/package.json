@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --watchAll",
+    "dev": "nodemon api.js",
+    "start": "node api.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,5 +18,17 @@
     "mongoose": "^5.9.27",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.4"
+  },
+  "devDependencies": {
+    "axios-mock-adapter": "^1.18.1",
+    "env-cmd": "^8.0.2",
+    "jest": "^26.5.2",
+    "supertest": "^5.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }

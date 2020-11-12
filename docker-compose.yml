@@ -1,0 +1,53 @@
+version: '3'
+services:
+  api:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./server
+    volumes:
+      - /app/node_modules
+      - ./server:/app
+  client:
+    stdin_open: true
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./client
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+  nginx:
+    depends_on:
+      - api
+      - client
+      - webserver
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    ports:
+      - '3050:80'
+  webserver:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./airflow-webserver
+    restart: on-failure
+    depends_on:
+      - scheduler
+    env_file:
+      - .env
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+  scheduler:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./airflow-scheduler
+    command: scheduler
+    restart: on-failure
+    env_file:
+      - .env
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs

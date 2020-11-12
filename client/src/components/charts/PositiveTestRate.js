@@ -4,13 +4,13 @@ import moment from 'moment';
 import "../../App.css";
 
 const PositiveTestRate = (props) => {
-    const stateData = props.positiveTestRateData[props.state];
+    const positive_test_rate = props.data;
 
     const lineData = {
         datasets: [
             {
                 label: 'Positive test rate',
-                data: stateData,
+                data: positive_test_rate,
                 borderColor: 'green',
                 backgroundColor: 'rgba(0, 255, 0, 0.2)',
                 fill: true,
@@ -60,16 +60,16 @@ const PositiveTestRate = (props) => {
     }
 
     function renderInfo() {
-        const positiveTestRate = Math.round(props.summary.positiveTestRate.y*100);
+        const positive_test_rate = Math.round(props.summary.positive_test_rate.y*100);
         let summary;
-        if(positiveTestRate < 3) {
-            summary = `A low percentage ${positiveTestRate}% of COVID tests were positive, which suggests widespread testing is available.`;
-        } else if (positiveTestRate >= 3 && positiveTestRate < 10) {
-            summary = `A moderate percentage ${positiveTestRate}% of COVID tests were positive, which suggests testing is available but not widespread.`;
-        } else if(positiveTestRate >= 10 && positiveTestRate < 20) {
-            summary = `A large percentage ${positiveTestRate}% of COVID tests were positive, which suggests that testing is limited.`;
-        } else if(positiveTestRate >= 20 && positiveTestRate <= 100) {
-            summary = `A massive percentage ${positiveTestRate}% of COVID tests were positive, which suggests testing is unable to keep up with demand. With a rate this high, many cases may exist undetected.`;
+        if(positive_test_rate < 3) {
+            summary = `A low percentage ${positive_test_rate}% of COVID tests were positive, which suggests widespread testing is available.`;
+        } else if (positive_test_rate >= 3 && positive_test_rate < 10) {
+            summary = `A moderate percentage ${positive_test_rate}% of COVID tests were positive, which suggests testing is available but not widespread.`;
+        } else if(positive_test_rate >= 10 && positive_test_rate < 20) {
+            summary = `A large percentage ${positive_test_rate}% of COVID tests were positive, which suggests that testing is limited.`;
+        } else if(positive_test_rate >= 20 && positive_test_rate <= 100) {
+            summary = `A massive percentage ${positive_test_rate}% of COVID tests were positive, which suggests testing is unable to keep up with demand. With a rate this high, many cases may exist undetected.`;
         }
         return(
             <div className="chart-info">
