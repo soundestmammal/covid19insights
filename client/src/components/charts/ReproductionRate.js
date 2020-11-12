@@ -11,7 +11,7 @@ const ReproductionRate = (props) => {
             {
                 label: 'Reproduction Rate',
                 data: data,
-                borderColor: 'red',
+                borderColor: 'black',
                 backgroundColor: 'rgba(0, 0, 0, 0)',
                 fill: true,
                 pointRadius: 0,

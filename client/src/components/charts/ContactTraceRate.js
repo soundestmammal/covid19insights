@@ -11,7 +11,7 @@ const ContactTraceRate = (props) => {
             {
                 label: 'Contact Trace Rate',
                 data: stateData,
-                borderColor: 'orange',
+                borderColor: 'black',
                 backgroundColor: 'rgba(0, 0, 0, 0)',
                 fill: true,
                 pointRadius: 0,

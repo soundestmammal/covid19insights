@@ -5,14 +5,18 @@ import "../../App.css";
 
 const PositiveTestRate = (props) => {
     const positive_test_rate = props.data;
-
+    const prepared_data = positive_test_rate.map((item) => {
+        item.y = item.y * 100;
+        return item;
+    })
+    
     const lineData = {
         datasets: [
             {
                 label: 'Positive test rate',
-                data: positive_test_rate,
-                borderColor: 'green',
-                backgroundColor: 'rgba(0, 255, 0, 0.2)',
+                data: prepared_data,
+                borderColor: 'black',
+                backgroundColor: 'transparent',
                 fill: true,
                 pointRadius: 0,
                 borderWidth: 4,
@@ -31,7 +35,7 @@ const PositiveTestRate = (props) => {
             yAxes: [{
                 ticks: {
                     beginAtZero: true,
-                    max: 0.5,
+                    max: 50,
                 },
                 gridLines: {
                     borderDash: [3, 2],
@@ -44,12 +48,21 @@ const PositiveTestRate = (props) => {
         },
         tooltips: {
             intersect: false,
+            titleFontSize: 18,
+            bodyFontSize: 18,
+
             mode: 'index',
             callbacks: {
                 title: function(tooltipItem, chart) {
                     // Change the date format
                     let date = tooltipItem[0].xLabel;
                     return moment(date, 'YYYY MM DD').format('MMMM DD, YYYY');
+                },
+                label: function (tooltipItem, chart) {
+                    return tooltipItem.yLabel + '%';
+                },
+                beforeBody: function (tooltipItem, chart) {
+                    return "Positive Test Rate"
                 }
             }
         },
