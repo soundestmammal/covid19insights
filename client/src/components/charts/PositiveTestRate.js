@@ -11,8 +11,8 @@ const PositiveTestRate = (props) => {
             {
                 label: 'Positive test rate',
                 data: positive_test_rate,
-                borderColor: 'green',
-                backgroundColor: 'rgba(0, 255, 0, 0.2)',
+                borderColor: 'black',
+                backgroundColor: 'transparent',
                 fill: true,
                 pointRadius: 0,
                 borderWidth: 4,
