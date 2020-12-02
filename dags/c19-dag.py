@@ -160,15 +160,6 @@ def process_nyt_data():
         acl_policy='public-read'
     )
 
-    # time.sleep(10)
-
-    # s3_client: BaseClient = boto3.client("s3", region_name="us-east-2")
-    # s3_client.put_object_acl(
-    #     aws_access_key_id="AKIAZYH3C3X7F7N3VDPJ", aws_secret_access_key="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", ACL="public-read", Bucket="c19-airflow-2020", Key="daily_cases.json")
-
-    # s3_client.put_object_acl(
-    #     ACL="public-read", Bucket="c19-airflow-2020", Key="daily_deaths.json")
-
 
 nyt_data = PythonOperator(
     task_id="nyt_data",
@@ -772,15 +763,11 @@ def join_all_data_task():
     rr_response = requests.get(url=REPRODUCTION_RATE_URL)
     rr_dict = json.loads(rr_response.text)
 
-    print('Do I make it 25% through?')
-
     ctr_response = requests.get(url=CONTACT_TRACE_RATE_URL)
     ctr_dict = json.loads(ctr_response.text)
 
     dc_response = requests.get(url=DAILY_CASES_URL)
     dc_dict = json.loads(dc_response.text)
-
-    print('DO I MAKE IT HALF WAY?')
 
     dcma_response = requests.get(url=DAILY_CASES_MA_URL)
     dcma_dict = json.loads(dcma_response.text)
@@ -793,8 +780,6 @@ def join_all_data_task():
 
     summary_response = requests.get(url=SUMMARY_URL)
     summary_dict = json.loads(summary_response.text)
-
-    print('Do I make it to the end of the loads?')
 
     # Load in all of the data from s3 buckets
 
