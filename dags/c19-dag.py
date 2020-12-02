@@ -688,11 +688,11 @@ def summary_task():
         return rr, ptr, ctr
 
     def calc_risk_level(rr, ptr, ctr):
-        if rr > 1.2:
+        if rr > 1.25 or ptr > 0.2 or ctr < 0.05:
             return 'critical'
-        elif rr > 1.1:
+        elif rr > 1.1 or ptr > 0.15 or ctr < 10:
             return 'high'
-        elif rr > 1.0:
+        elif rr > 1.0 or ptr > 0.10 or ctr < 50:
             return 'medium'
         else:
             return 'low'
