@@ -754,7 +754,111 @@ summary = PythonOperator(
 )
 
 
+def join_all_data_task():
+    print('This will be the last step where I join all data')
+
+    POSITIVE_TEST_RATE_URL = "https://c19-airflow-2020.s3.us-east-2.amazonaws.com/positive_test_rate.json"
+    REPRODUCTION_RATE_URL = "https://c19-airflow-2020.s3.us-east-2.amazonaws.com/reproduction_rate.json"
+    CONTACT_TRACE_RATE_URL = "https://c19-airflow-2020.s3.us-east-2.amazonaws.com/contact_trace_rate.json"
+    DAILY_CASES_URL = "https://c19-airflow-2020.s3.us-east-2.amazonaws.com/nyt-daily_cases.json"
+    DAILY_CASES_MA_URL = "https://c19-airflow-2020.s3.us-east-2.amazonaws.com/daily_cases_moving_average.json"
+    DAILY_DEATHS_URL = "https://c19-airflow-2020.s3.us-east-2.amazonaws.com/daily_deaths.json"
+    DAILY_DEATHS_MA_URL = "https://c19-airflow-2020.s3.us-east-2.amazonaws.com/daily_deaths_moving_average.json"
+    SUMMARY_URL = "https://c19-airflow-2020.s3.us-east-2.amazonaws.com/summary.json"
+
+    ptr_response = requests.get(url=POSITIVE_TEST_RATE_URL)
+    ptr_dict = json.loads(ptr_response.text)
+
+    rr_response = requests.get(url=REPRODUCTION_RATE_URL)
+    rr_dict = json.loads(rr_response.text)
+
+    print('Do I make it 25% through?')
+
+    ctr_response = requests.get(url=CONTACT_TRACE_RATE_URL)
+    ctr_dict = json.loads(ctr_response.text)
+
+    dc_response = requests.get(url=DAILY_CASES_URL)
+    dc_dict = json.loads(dc_response.text)
+
+    print('DO I MAKE IT HALF WAY?')
+
+    dcma_response = requests.get(url=DAILY_CASES_MA_URL)
+    dcma_dict = json.loads(dcma_response.text)
+
+    dd_response = requests.get(url=DAILY_DEATHS_URL)
+    dd_dict = json.loads(dd_response.text)
+
+    ddma_response = requests.get(url=DAILY_DEATHS_MA_URL)
+    ddma_dict = json.loads(ddma_response.text)
+
+    summary_response = requests.get(url=SUMMARY_URL)
+    summary_dict = json.loads(summary_response.text)
+
+    print('Do I make it to the end of the loads?')
+
+    # Load in all of the data from s3 buckets
+
+    # { state: { ptr:[], rt:[], ctr:[], dc:[], dd:[] } }
+    data_structure = {}
+
+    for us_state in state_names:
+
+        # This will eventually have keys ptr, rt, ctr, ...
+        state_dict = {}
+
+        # Positive Test Rate
+        state_positive_test_rate = ptr_dict[us_state]
+        state_dict['positive_test_rate'] = state_positive_test_rate
+
+        # Reproduction Rate
+        state_reproduction_rate = rr_dict[us_state]
+        state_dict['reproduction_rate'] = state_reproduction_rate
+
+        # Contact Trace Rate
+        state_contact_trace_rate = ctr_dict[us_state]
+        state_dict['contact_trace_rate'] = state_contact_trace_rate
+
+        # Daily Cases
+        state_daily_cases = dc_dict[us_state]
+        state_dict['daily_cases'] = state_daily_cases
+
+        # Daily Cases (Moving Average)
+        state_daily_cases_moving_average = dcma_dict[us_state]
+        state_dict['daily_cases_moving_average'] = state_daily_cases_moving_average
+
+        # Daily Deaths
+        state_daily_deaths = dd_dict[us_state]
+        state_dict['daily_deaths'] = state_daily_deaths
+
+        # Daily Deaths (Moving Average)
+        state_daily_deaths_moving_average = ddma_dict[us_state]
+        state_dict['daily_deaths_moving_average'] = state_daily_deaths_moving_average
+
+        # Summary
+        state_summary = summary_dict[us_state]
+        state_dict['summary'] = state_summary
+
+        data_structure[us_state] = state_dict
+
+    join_s3 = json.dumps(data_structure)
+    s3_hook = S3Hook(aws_conn_id="s3_connection")
+    s3_hook.load_string(
+        string_data=join_s3,
+        key="join.json",
+        bucket_name="c19-airflow-s3",
+        replace=True,
+        acl_policy="public-read"
+    )
+
+
+join_all_data = PythonOperator(
+    task_id="join_all_data",
+    python_callable=join_all_data_task,
+    dag=dag,
+)
+
+
 create_s3_bucket >> nyt_data
 create_s3_bucket >> rt_data
-nyt_data >> cases_7day >> contact_trace_rate >> positive_test_rate >> summary
+nyt_data >> cases_7day >> contact_trace_rate >> positive_test_rate >> summary >> join_all_data
 nyt_data >> deaths_7day
