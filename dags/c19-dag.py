@@ -1,7 +1,10 @@
 import json
 import requests
 import pandas as pd
+import boto3
+import time
 
+from botocore.client import BaseClient
 from datetime import datetime, timedelta
 
 from airflow import DAG
@@ -51,7 +54,7 @@ default_args = {
     'email_on_failure': False,
     'email_on_retry': False,
     'retries': 1,
-    'retry_delay': timedelta(minutes=2),
+    'retry_delay': timedelta(minutes=1),
 }
 
 dag = DAG(dag_id='c19-pipeline', default_args=default_args)
@@ -145,15 +148,26 @@ def process_nyt_data():
         string_data=cases_data_for_s3,
         key="daily_cases.json",
         bucket_name="c19-airflow-2020",
-        replace=True
+        replace=True,
+        acl_policy='public-read'
     )
 
     s3_hook.load_string(
         string_data=deaths_data_for_s3,
         key="daily_deaths.json",
         bucket_name="c19-airflow-2020",
-        replace=True
+        replace=True,
+        acl_policy='public-read'
     )
+
+    # time.sleep(10)
+
+    # s3_client: BaseClient = boto3.client("s3", region_name="us-east-2")
+    # s3_client.put_object_acl(
+    #     aws_access_key_id="AKIAZYH3C3X7F7N3VDPJ", aws_secret_access_key="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", ACL="public-read", Bucket="c19-airflow-2020", Key="daily_cases.json")
+
+    # s3_client.put_object_acl(
+    #     ACL="public-read", Bucket="c19-airflow-2020", Key="daily_deaths.json")
 
 
 nyt_data = PythonOperator(
@@ -166,7 +180,7 @@ nyt_data = PythonOperator(
 def cases_7day_task():
     def cases_7day_moving_average():
         # Load in the json data
-        URL = "https://c19-airflow-2020.s3.us-east-2.amazonaws.com/nyt-daily_cases.json"
+        URL = "https://c19-airflow-2020.s3.us-east-2.amazonaws.com/daily_cases.json"
         r = requests.get(url=URL)
         data = r.text
         dict_data = json.loads(data)
@@ -215,7 +229,8 @@ def cases_7day_task():
         string_data=cases_json_s3,
         key="daily_cases_moving_average.json",
         bucket_name="c19-airflow-2020",
-        replace=True
+        replace=True,
+        acl_policy='public-read'
     )
 
 
@@ -279,7 +294,8 @@ def deaths_7day_task():
         string_data=deaths_json_s3,
         key="daily_deaths_moving_average.json",
         bucket_name="c19-airflow-2020",
-        replace=True
+        replace=True,
+        acl_policy="public-read"
     )
 
 
@@ -355,6 +371,7 @@ def process_rt_data():
         key="reproduction_rate.json",
         bucket_name="c19-airflow-2020",
         replace=True,
+        acl_policy="public-read"
     )
 
 
@@ -388,7 +405,7 @@ def contact_trace_rate():
             state_tracers_dict[current_state] = item['contact_tracers']
 
         # 3. Fetch the daily case moving average data from s3
-        S3_BUCKET_URL = "https://c19-airflow-s3.s3.us-east-2.amazonaws.com/nyt-7day-cases.json"
+        S3_BUCKET_URL = "https://c19-airflow-2020.s3.us-east-2.amazonaws.com/daily_cases_moving_average.json"
         r = requests.get(S3_BUCKET_URL)
         data = r.text
 
@@ -437,9 +454,10 @@ def contact_trace_rate():
     s3_hook = S3Hook(aws_conn_id="s3_connection")
     s3_hook.load_string(
         string_data=s3_contact_trace_rate,
-        key="contact_trace_rate-test.json",
-        bucket_name="c19-airflow-s3",
-        replace=True
+        key="contact_trace_rate.json",
+        bucket_name="c19-airflow-2020",
+        replace=True,
+        acl_policy="public-read"
     )
 
 
@@ -449,7 +467,294 @@ contact_trace_rate = PythonOperator(
     dag=dag,
 )
 
+
+def positive_test_rate_task():
+    def calc_daily_negative_tests():
+        URL = "https://api.covidtracking.com/v1/states/daily.csv"
+        df = pd.read_csv(URL)
+
+        df = df.iloc[:, 0:5]
+
+        df = df[df.state != 'AS']
+        df = df[df.state != 'DC']
+        df = df[df.state != 'GU']
+        df = df[df.state != 'MP']
+        df = df[df.state != 'PR']
+        df = df[df.state != 'VI']
+
+        df = df.fillna(0)
+
+        json_data = df.reset_index().to_json(orient="records")
+        data = json.loads(json_data)
+
+        # Fix the item['state']
+        for data_point in data:
+            data_point['state'] = state_name_map[data_point['state']]
+
+        return_dict = {}
+
+        for us_state in state_names:
+            state_append = []
+            current_state = []
+            for value in data:
+                if value['state'] == us_state:
+                    current_state.append(value)
+
+            # Sort the data by date
+            current_state.reverse()
+
+            # Calculate the daily negative tests
+            for i in range(len(current_state)):
+                data_point = {}
+
+                date = str(current_state[i]['date'])
+                year = date[:4]
+                month = date[4:6]
+                day = date[6:]
+                formatted_date = year + "-" + month + "-" + day
+                data_point['x'] = formatted_date
+
+                if i == 0:
+                    data_point['y'] = current_state[i]['negative']
+                else:
+                    today = current_state[i]['negative']
+                    yesterday = current_state[i-1]['negative']
+                    data_point['y'] = today - yesterday
+
+                state_append.append(data_point)
+
+            return_dict[us_state] = state_append
+
+        return return_dict
+
+    def calc_7day_negative_tests(daily_negatives):
+        # Make a list of the state names
+        us_states = list(daily_negatives.keys())
+
+        # Create a Data structure to return
+        data_structure = {}
+
+        # for each item in json data
+        for us_state in us_states:
+
+            # loop through the list and find the moving average for day i
+            current = daily_negatives[us_state]
+            current_state_7day = []
+
+            # if is is between 0 and 6, then I need to divide by less than 7 days
+            for i in range(len(current)):
+                data_point = {}
+                mean = 0
+                sum = 0
+                if i == 0:
+                    sum = current[i]['y']
+                    mean = sum
+                elif i < 6:
+                    # do something
+                    for x in range(0, i):
+                        sum = sum + current[x]['y']
+                    mean = sum / i+1
+                else:
+                    for x in range(i - 6, i+1):
+                        sum = sum + current[x]['y']
+                    mean = sum / 7
+
+                data_point['x'] = current[i]['x']
+                data_point['y'] = round(mean)
+
+                current_state_7day.append(data_point)
+
+            data_structure[us_state] = current_state_7day
+
+        return data_structure
+
+    def calc_positive_test_rate(daily_cases, daily_negatives):
+        # How am I going to do this?
+
+        # Create a data structure to return
+        data_structure = {}
+
+        # Get a list of us_states
+        us_states = list(daily_negatives.keys())
+
+        # for each state:
+        for us_state in us_states:
+
+            # create a list of calc_state
+            calc_state = []
+
+            current_negatives_list = daily_negatives[us_state]
+            current_cases_list = daily_cases[us_state]
+
+            # for each current_state_list:
+            for element in current_negatives_list:
+
+                # create a datapoint
+                data_point = {}
+
+                # identify the date
+                date = element['x']
+
+                # set the x-value to the date
+                data_point['x'] = date
+
+                # find the item in the daily_cases list
+                iterator = next((
+                    item for item in current_cases_list if item["x"] == date), None)
+
+                if iterator == None:
+                    continue
+
+                cases = iterator['y']
+                # perform the calculation
+
+                # cases =
+
+                # negatives =
+
+                negatives = element['y']
+
+                # total = cases + negatives
+                total = cases + negatives
+
+                # rate = cases / total
+                if total == 0:
+                    continue
+                else:
+                    rate = round(cases/total, 3)
+
+                if rate > 1:
+                    print('==========================')
+                    print('STATE', us_state)
+                    print('DATE', date)
+                    print('==========================')
+                    print('CASES', cases)
+                    print('NEGATIVES', negatives)
+                    print('TOTAL', total)
+                    print('==========================')
+                    continue
+                # set the y-value to be the rate
+                data_point['y'] = rate
+
+                # append the data_point to the calc_state list
+                calc_state.append(data_point)
+
+            data_structure[us_state] = calc_state
+
+        return data_structure
+
+    # get the 7 day cases from s3
+    DAILY_CASES_MA_URL = "https://c19-airflow-2020.s3.us-east-2.amazonaws.com/daily_cases_moving_average.json"
+    r = requests.get(DAILY_CASES_MA_URL)
+    daily_cases_7day = json.loads(r.text)
+    print(daily_cases_7day.keys())
+    daily_negative_tests = calc_daily_negative_tests()
+
+    negative_tests_7day = calc_7day_negative_tests(daily_negative_tests)
+
+    positive_test_rate_data = calc_positive_test_rate(
+        daily_cases_7day, negative_tests_7day)
+
+    positive_test_rate_s3 = json.dumps(positive_test_rate_data)
+
+    s3_hook = S3Hook(aws_conn_id="s3_connection")
+    s3_hook.load_string(
+        string_data=positive_test_rate_s3,
+        key="positive_test_rate.json",
+        bucket_name="c19-airflow-2020",
+        replace=True,
+        acl_policy="public-read"
+    )
+    print('this is the positive test rate task')
+
+
+positive_test_rate = PythonOperator(
+    task_id="positive_test_rate",
+    python_callable=positive_test_rate_task,
+    dag=dag
+)
+
+
+def summary_task():
+    # How should I think of the summary?
+
+    def fetch_data():
+        # fetch reproduction_rate
+        RR_URL = "https://c19-airflow-2020.s3.us-east-2.amazonaws.com/reproduction_rate.json"
+        r_rr = requests.get(url=RR_URL)
+        rr = json.loads(r_rr.text)
+
+        # fetch positive_test_rate
+        PTR_URL = "https://c19-airflow-2020.s3.us-east-2.amazonaws.com/positive_test_rate.json"
+        r_ptr = requests.get(url=PTR_URL)
+        ptr = json.loads(r_ptr.text)
+
+        # fetch contact_trace_rate
+        CTR_URL = "https://c19-airflow-2020.s3.us-east-2.amazonaws.com/contact_trace_rate.json"
+        r_ctr = requests.get(url=CTR_URL)
+        ctr = json.loads(r_ctr.text)
+
+        return rr, ptr, ctr
+
+    def calc_risk_level(rr, ptr, ctr):
+        if rr > 1.2:
+            return 'critical'
+        elif rr > 1.1:
+            return 'high'
+        elif rr > 1.0:
+            return 'medium'
+        else:
+            return 'low'
+
+    def calc_summary(rr, ptr, ctr):
+        # What needs to be included in the summary?
+        # summary = { state: { summary dictionary }}
+        summary = {}
+
+        for us_state in list(rr.keys()):
+            # summary dictionary = { rr, ptr, ctr, date }
+            state_summary = {}
+
+            current_rr = rr[us_state][-1]['y']
+            current_ptr = ptr[us_state][-1]['y']
+            current_ctr = ctr[us_state][-1]['y']
+            current_risk_level = calc_risk_level(
+                current_rr, current_ptr, current_ctr)
+
+            state_summary['reproduction_rate'] = current_rr
+            state_summary['positive_test_rate'] = current_ptr
+            state_summary['contact_trace_rate'] = current_ctr
+            state_summary['risk_level'] = current_risk_level
+
+            summary[us_state] = state_summary
+
+        return summary
+
+    rr, ptr, ctr = fetch_data()
+
+    summary = calc_summary(rr, ptr, ctr)
+
+    summary_data_for_s3 = json.dumps(summary)
+
+    # I now have the summary I need to just prepare it for s3
+    s3_hook = S3Hook(aws_conn_id="s3_connection")
+    s3_hook.load_string(
+        string_data=summary_data_for_s3,
+        key="summary.json",
+        bucket_name="c19-airflow-2020",
+        replace=True,
+        acl_policy="public-read"
+    )
+
+
+summary = PythonOperator(
+    task_id="summary",
+    python_callable=summary_task,
+    dag=dag,
+)
+
+
 create_s3_bucket >> nyt_data
 create_s3_bucket >> rt_data
-nyt_data >> cases_7day >> contact_trace_rate
+nyt_data >> cases_7day >> contact_trace_rate >> positive_test_rate >> summary
 nyt_data >> deaths_7day
