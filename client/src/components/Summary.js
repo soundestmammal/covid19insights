@@ -72,12 +72,31 @@ const Summary = (props) => {
         } else {
             subtitle = "The number of daily cases is increasing";
         }
+
+        let reproductionRateRiskLevel = '';
+
+        if(reproduction_rate < 1) {
+            subtitle = "Indicates widespread testing";
+            reproductionRateRiskLevel = "low";
+        } else if (reproduction_rate >= 1.0 && reproduction_rate < 1.1) {
+            subtitle = "Indicates adequate testing";
+            reproductionRateRiskLevel = "medium";
+        } else if(reproduction_rate >= 1.1 && reproduction_rate < 1.2) {
+            subtitle = "Indicates insufficent testing";
+            reproductionRateRiskLevel = "high";
+        } else if(reproduction_rate >= 1.2) {
+            subtitle = "Indicates dangerously little testing";
+            reproductionRateRiskLevel = "critical";
+        } else {
+            throw new Error("Positive test rate was calculated incorrectly");
+        }
+
         return(
             <div className="indicator-card-content">
                 <span className="title">Reproduction rate</span>
                 <span className="subtitle">{subtitle}</span>
                 <span className="data-value">{reproduction_rate}</span>
-                <span className={`risk ${risk_level}`} >{risk_level}</span>
+                <span className={`risk ${reproductionRateRiskLevel}`} >{reproductionRateRiskLevel}</span>
             </div>
         );
     }
