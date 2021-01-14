@@ -68,7 +68,9 @@ const ContactTraceRate = (props) => {
             <div className="chart-info">
                 <span className="info-title">Contact Trace Rate</span>
                 <span className="info-state">{props.state}</span>
-                <p className="info-summary">Per best available data, {props.state} has ???? contact tracers. With an average of ??? new daily cases, we estimate {props.state} needs ???? contact tracing staff to trace all new cases in 24 hours, before too many other people are infected. This means that {props.state} is likely able to trace ???% of new COVID infections in 24 hours. When this level of tracing is coupled with widely available testing, COVID can be contained without resorting to lockdowns.</p>
+                <p className="info-summary">At present, {props.state} is experiencing community spread of COVID-19.
+                Contact Tracing efforts when combined with accessible testing infrastructure help reduce the spread of COVID-19.
+                </p>
             </div>
         );
     }
@@ -76,7 +78,11 @@ const ContactTraceRate = (props) => {
     function renderFooter() {
         return(
             <div className="chart-footer">
-                <p>Last updated {`${lastUpdated}`}. Experts recommend that at least 90% of contacts for each new case must be traced within 48 hours in order to contain COVID. Experts estimate that tracing each new case within 48 hours requires an average of 5 contact tracers per new case, as well as fast testing.</p>
+                <p>Last updated {`${lastUpdated}`}.
+                Experts recommend that at least 90% of contacts
+                for each new case must be traced within 48 hours in order to contain COVID-19.
+                Experts estimate that 5 contact tracers are needed for each new case.
+                The number of contact tracers by State is sourced from testandtrace.com</p>
             </div>
         )
     }
