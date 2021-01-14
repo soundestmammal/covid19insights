@@ -701,8 +701,10 @@ def summary_task():
         # summary = { state: { summary dictionary }}
         summary = {}
 
-        now = datetime.now()
-        last_updated = now.strftime("%B %d, %Y")
+        end_date = rr["California"][-1]['x']
+        datetime_obj = datetime.strptime(end_date, "%Y-%m-%d")
+
+        last_updated = datetime_obj.strftime("%B %d, %Y")
 
         for us_state in list(rr.keys()):
             # summary dictionary = { rr, ptr, ctr, date }
