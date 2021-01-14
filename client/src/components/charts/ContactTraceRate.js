@@ -6,6 +6,9 @@ import "../../App.css";
 const ContactTraceRate = (props) => {
     const stateData = props.data;
 
+    const recentDate = stateData[stateData.length - 1].x
+    const lastUpdated = moment(recentDate, 'YYYY MM DD').format('MMMM DD, YYYY')
+
     const lineData = {
         datasets: [
             {
@@ -73,7 +76,7 @@ const ContactTraceRate = (props) => {
     function renderFooter() {
         return(
             <div className="chart-footer">
-                <p>Last updated 8/7/2020. Experts recommend that at least 90% of contacts for each new case must be traced within 48 hours in order to contain COVID. Experts estimate that tracing each new case within 48 hours requires an average of 5 contact tracers per new case, as well as fast testing.</p>
+                <p>Last updated {`${lastUpdated}`}. Experts recommend that at least 90% of contacts for each new case must be traced within 48 hours in order to contain COVID. Experts estimate that tracing each new case within 48 hours requires an average of 5 contact tracers per new case, as well as fast testing.</p>
             </div>
         )
     }

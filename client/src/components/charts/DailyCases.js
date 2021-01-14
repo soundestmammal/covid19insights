@@ -4,6 +4,9 @@ import moment from 'moment';
 
 const DailyCases = (props) => {
 
+    const recentDate = props.movingData[props.movingData.length - 1].x
+    const lastUpdated = moment(recentDate, 'YYYY MM DD').format('MMMM DD, YYYY')
+
     const barData = {
         datasets: [
             {
@@ -77,7 +80,7 @@ const DailyCases = (props) => {
     function renderFooter() {
         return(
             <div className="chart-footer">
-                <p>Last updated 8/7/2020. Source: New York Times</p>
+                <p>Last updated {`${lastUpdated}`}. Source: New York Times</p>
             </div>
         )
     }

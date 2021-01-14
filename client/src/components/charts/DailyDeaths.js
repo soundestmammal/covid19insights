@@ -3,6 +3,10 @@ import { Bar } from 'react-chartjs-2';
 import moment from 'moment';
 
 const DailyDeaths = (props) => {
+
+    const recentDate = props.movingData[props.movingData.length - 1].x
+    const lastUpdated = moment(recentDate, 'YYYY MM DD').format('MMMM DD, YYYY')
+
     const barData = {
         datasets: [
             {
@@ -80,7 +84,7 @@ const DailyDeaths = (props) => {
     function renderFooter() {
         return(
             <div className="chart-footer">
-                <p>Last updated 8/7/2020. Source: New York Times</p>
+                <p>Last updated {`${lastUpdated}`}. Source: New York Times</p>
             </div>
         )
     }
