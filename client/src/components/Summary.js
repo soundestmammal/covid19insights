@@ -2,10 +2,10 @@ import React from 'react';
 
 const Summary = (props) => {
     const { state } = props;
-    let { risk_level, reproduction_rate, positive_test_rate, contact_trace_rate } = props.data;
+    let { risk_level, reproduction_rate, positive_test_rate, contact_trace_rate, last_updated } = props.data;
     positive_test_rate = Math.round(positive_test_rate * 1000)/10;
     contact_trace_rate = Math.round(contact_trace_rate * 100);
-    const updatedLast = "January 14, 2021"
+    
 
     function renderPositiveTestRateContent() {
         let subtitle;
@@ -154,7 +154,7 @@ const Summary = (props) => {
                 </div>
             </div>
             <div className="last-updated">
-                <span>Updated {updatedLast}</span>
+                <span>{`Updated ${last_updated}`}</span>
             </div>
         </div>
     )
