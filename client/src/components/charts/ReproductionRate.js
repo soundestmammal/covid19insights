@@ -6,6 +6,10 @@ import "../../App.css";
 const ReproductionRate = (props) => {
     const { data, summary } = props;
     const reproduction_rate = summary.reproduction_rate;
+
+    const recentDate = data[data.length - 1].x
+    const lastUpdated = moment(recentDate, 'YYYY MM DD').format('MMMM DD, YYYY')
+
     const lineData = {
         datasets: [
             {
@@ -73,7 +77,7 @@ const ReproductionRate = (props) => {
         // Each data point represents the estimated daily reproduction rate. I present the most recent seven days of data as a dashed line, as data is often revised by states several days after reporting. The blue shadow above and below the line represent an 80% confidence interval.
         return(
             <div className="chart-footer">
-                <p>Last updated 8/7/2020. Source: Rt.live</p>
+                <p>{`Last updated ${lastUpdated}. Source: Rt.live`}</p>
             </div>
         )
     }

@@ -410,7 +410,6 @@ def contact_trace_rate():
             current_state_data = data_dict[us_state]
             iterator = next(
                 item for item in contact_trace_data if item["State"] == us_state)
-            print('THIS IS THE ITERATOR', iterator)
             contact_tracers = iterator['contact_tracers']
             tracing_capacity = contact_tracers/5
 
@@ -702,6 +701,11 @@ def summary_task():
         # summary = { state: { summary dictionary }}
         summary = {}
 
+        end_date = rr["California"][-1]['x']
+        datetime_obj = datetime.strptime(end_date, "%Y-%m-%d")
+
+        last_updated = datetime_obj.strftime("%B %d, %Y")
+
         for us_state in list(rr.keys()):
             # summary dictionary = { rr, ptr, ctr, date }
             state_summary = {}
@@ -716,6 +720,7 @@ def summary_task():
             state_summary['positive_test_rate'] = current_ptr
             state_summary['contact_trace_rate'] = current_ctr
             state_summary['risk_level'] = current_risk_level
+            state_summary['last_updated'] = last_updated
 
             summary[us_state] = state_summary
 
@@ -751,7 +756,7 @@ def join_all_data_task():
     POSITIVE_TEST_RATE_URL = "https://c19-airflow-2020.s3.us-east-2.amazonaws.com/positive_test_rate.json"
     REPRODUCTION_RATE_URL = "https://c19-airflow-2020.s3.us-east-2.amazonaws.com/reproduction_rate.json"
     CONTACT_TRACE_RATE_URL = "https://c19-airflow-2020.s3.us-east-2.amazonaws.com/contact_trace_rate.json"
-    DAILY_CASES_URL = "https://c19-airflow-2020.s3.us-east-2.amazonaws.com/nyt-daily_cases.json"
+    DAILY_CASES_URL = "https://c19-airflow-2020.s3.us-east-2.amazonaws.com/daily_cases.json"
     DAILY_CASES_MA_URL = "https://c19-airflow-2020.s3.us-east-2.amazonaws.com/daily_cases_moving_average.json"
     DAILY_DEATHS_URL = "https://c19-airflow-2020.s3.us-east-2.amazonaws.com/daily_deaths.json"
     DAILY_DEATHS_MA_URL = "https://c19-airflow-2020.s3.us-east-2.amazonaws.com/daily_deaths_moving_average.json"

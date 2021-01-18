@@ -2,9 +2,10 @@ import React from 'react';
 
 const Summary = (props) => {
     const { state } = props;
-    let { risk_level, reproduction_rate, positive_test_rate, contact_trace_rate } = props.data;
+    let { risk_level, reproduction_rate, positive_test_rate, contact_trace_rate, last_updated } = props.data;
     positive_test_rate = Math.round(positive_test_rate * 1000)/10;
-    contact_trace_rate = Math.round(contact_trace_rate*100);
+    contact_trace_rate = Math.round(contact_trace_rate * 100);
+    
 
     function renderPositiveTestRateContent() {
         let subtitle;
@@ -76,19 +77,19 @@ const Summary = (props) => {
         let reproductionRateRiskLevel = '';
 
         if(reproduction_rate < 1) {
-            subtitle = "Indicates widespread testing";
+            subtitle = "Indicates a reduction in daily cases over time";
             reproductionRateRiskLevel = "low";
         } else if (reproduction_rate >= 1.0 && reproduction_rate < 1.1) {
-            subtitle = "Indicates adequate testing";
+            subtitle = "Indicates controlled spread";
             reproductionRateRiskLevel = "medium";
         } else if(reproduction_rate >= 1.1 && reproduction_rate < 1.2) {
-            subtitle = "Indicates insufficent testing";
+            subtitle = "Indicates rapid spread of virus";
             reproductionRateRiskLevel = "high";
         } else if(reproduction_rate >= 1.2) {
-            subtitle = "Indicates dangerously little testing";
+            subtitle = "Indicates unsustainable rate of transmission";
             reproductionRateRiskLevel = "critical";
         } else {
-            throw new Error("Positive test rate was calculated incorrectly");
+            throw new Error("Reproduction rate was calculated incorrectly");
         }
 
         return(
@@ -153,7 +154,7 @@ const Summary = (props) => {
                 </div>
             </div>
             <div className="last-updated">
-                <span>{"Updated October 26, 2020"}</span>
+                <span>{`Updated ${last_updated}`}</span>
             </div>
         </div>
     )

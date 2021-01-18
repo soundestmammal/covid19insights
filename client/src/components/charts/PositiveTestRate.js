@@ -9,6 +9,9 @@ const PositiveTestRate = (props) => {
         item.y = item.y * 100;
         return item;
     })
+    const recentDate = positive_test_rate[positive_test_rate.length - 1].x
+    const lastUpdated = moment(recentDate, 'YYYY MM DD').format('MMMM DD, YYYY')
+
     
     const lineData = {
         datasets: [
@@ -48,9 +51,6 @@ const PositiveTestRate = (props) => {
         },
         tooltips: {
             intersect: false,
-            titleFontSize: 18,
-            bodyFontSize: 18,
-
             mode: 'index',
             callbacks: {
                 title: function(tooltipItem, chart) {
@@ -96,7 +96,7 @@ const PositiveTestRate = (props) => {
     function renderFooter() {
         return(
             <div className="chart-footer">
-                <p>Last updated 8/7/2020. The World Health Organization recommends a positive test rate of below 10%. The most successful countries have rates less than 3%. Each data point represents the 7-day trailing average.</p>
+                <p>{`Last updated ${lastUpdated}. The World Health Organization recommends a positive test rate of below 10%. The most successful countries have rates less than 3%. Each data point represents the 7-day trailing average.`}</p>
             </div>
         )
     }
