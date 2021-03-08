@@ -1,8 +1,34 @@
 # COVID-19 Insights
 
-C19insights is an interactive dashboard to visualize COVID-19 trends in the United States.
+This app is for people to get a basic assessment and risk levels of COVID-19 for each US State. This application aggregates data from several sources and renders the transformed data in a Dashboard.
 
-# Tech
+Available here: http://www.c19insights.io
+
+***
+## Table of contents
+- [Getting Started](#getting-started)
+- [Installation](#installation)
+- [Start and Watch](#start-and-watch)
+- [Languages and tools](#languages-and-tools)
+- [Data](#data)
+
+## Getting Started
+For development, you will only need [Docker](http://docker.com) installed on your environment.
+
+## Installation
+
+```
+    $ git clone https://github.com/soundestmammal/covid19insights.git
+    $ cd covid19insights
+```
+
+## Start and Watch
+
+```
+  $ docker-compose up
+```
+
+## Languages and Tools
 
 c19insights uses a number of technologies to run properly:
 
@@ -17,6 +43,8 @@ c19insights uses a number of technologies to run properly:
 * Nginx
 * Docker
 * AWS
+
+
 
 # Data
 
