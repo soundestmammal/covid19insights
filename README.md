@@ -24,6 +24,10 @@ For development, you will only need [Docker](http://docker.com) installed on you
 
 ## Start and Watch
 
+Due to environment variables, you will not be able to run the app with full features.
+
+However, with the environment variables provided you should be able to run.
+
 ```
   $ docker-compose up
 ```
@@ -44,9 +48,7 @@ c19insights uses a number of technologies to run properly:
 * Docker
 * AWS
 
-
-
-# Data
+## Data
 
 C19insights uses data from a variety of sources to show trends:
 
