@@ -2,8 +2,6 @@
 
 This app is for people to get a basic assessment and risk levels of COVID-19 for each US State. This application aggregates data from several sources and renders the transformed data in a Dashboard.
 
-Available here: http://www.c19insights.io
-
 ***
 ## Table of contents
 - [Getting Started](#getting-started)
